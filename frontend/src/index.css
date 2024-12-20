@@ -1,3 +1,9 @@
+input:-webkit-autofill{
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+}
+input:-moz-autofill{
+      -moz-box-shadow: 0 0 0 1000px white inset !important;
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -12,8 +18,74 @@ code {
 }
 
 /* Write new css for the website from here */
-
+a{
+  color:dimgray;
+}
 *{
+  text-decoration:none;
+  outline:0;
   margin: 0;
   padding: 0;
+}
+button{
+  cursor:pointer;
+}
+.signup-container {
+  margin:100px auto;
+  max-width:300px;
+  padding: 20px;
+  border-radius: 8px;
+}
+.signup-container select{
+  padding: 10px;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.signup-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.signup-input{
+  width:calc(100% - 20px);
+  padding:10px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.signup-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  font-weight:550;
+  color: #ffffff;
+  background-color: #f25c22;
+  border: none;
+  border-radius: 5px;
+}
+.signup-login{
+  margin-top:15px;
+  text-align:center;
+}
+.signup-login a{
+  font-weight:550;
+}
+.password-wrapper i{
+  cursor: pointer;
+}
+.password-wrapper{
+  border:1px solid #ddd;
+  display: flex;
+  align-items: center;
+  padding-right: 5px;
+  border-radius:5px;
+  margin-bottom: 10px;
 }

@@ -1,0 +1,29 @@
+# Node.js dependencies
+node_modules/
+
+# Logs
+*.log
+logs/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+
+# Build output
+dist/
+build/
+
+# IDE configurations
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# NPM package-lock file (if you're using Yarn, replace package-lock.json with yarn.lock)
+package-lock.json
+
+# Optional: If using Jest or Mocha, add test coverage folders
+coverage/

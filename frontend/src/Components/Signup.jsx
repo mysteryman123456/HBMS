@@ -21,7 +21,7 @@ const Signup = () => {
   }
   return (
     <div className="signup-container">
-        <h1 className="signup-title">Signup</h1>
+        <h1 className="signup-title">Create your Account</h1>
 
         <label>Fullname*</label>
         <input onChange={handleChange} name='fullname' type="text" placeholder="Full Name" className="signup-input" />

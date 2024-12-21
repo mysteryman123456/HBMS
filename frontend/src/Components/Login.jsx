@@ -17,7 +17,7 @@ const Login = () => {
   }
   return (
 <div className="signup-container">
-        <h1 className="signup-title">Login</h1>
+        <h1 className="signup-title">Welcome Back!</h1>
 
         <label>Email*</label>
         <input onChange={handleChange} name='email' type="email" placeholder="Email" className="signup-input" />

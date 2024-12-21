@@ -37,24 +37,23 @@ button{
   border-radius: 8px;
 }
 .signup-container select{
-  padding: 10px;
+  padding: 15px;
   width: 100%;
-  padding: 10px;
   margin-bottom: 15px;
   font-size: 14px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
 .signup-title {
-  text-align: center;
-  font-size: 24px;
+  text-align:left;
+  font-size:25px;
   font-weight: 600;
   margin-bottom: 20px;
 }
 
 .signup-input{
-  width:calc(100% - 20px);
-  padding:10px;
+  width:calc(100% - 30px);
+  padding:15px;
   margin-bottom:20px;
   font-size: 14px;
   border: 1px solid #ddd;
@@ -63,8 +62,8 @@ button{
 
 .signup-button {
   width: 100%;
-  padding: 10px;
-  font-size: 16px;
+  padding: 15px;
+  font-size: 18px;
   font-weight:550;
   color: #ffffff;
   background-color:rgb(219, 77, 68);
@@ -79,6 +78,7 @@ button{
   font-weight:550;
 }
 .password-wrapper i{
+  font-size:20px;
   cursor: pointer;
 }
 .password-wrapper{
@@ -122,4 +122,60 @@ nav,.nav-right-side{
 }
 
 /* footer css */
+.footer-container {
+  background-color: black;
+  color: rgb(218, 218, 218);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
 
+.footer-section {
+  flex: 1 1 40%;
+  margin: 10px;
+}
+
+.footer-title {
+  color: darkgrey;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.footer-description, .footer-note {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-link {
+  color: rgb(209, 209, 209);
+  margin-bottom: 5px;
+  display: block;
+}
+
+.footer-link:hover {
+  color:white;
+}
+
+.footer-star {
+  color: #ccc; 
+}
+
+.footer-star.filled {
+  color: #f8d100;
+}
+
+.footer-average-rating {
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.footer-reviews {
+  margin: 10px 0;
+  font-style: italic;
+}

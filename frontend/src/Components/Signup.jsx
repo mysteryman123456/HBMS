@@ -22,14 +22,26 @@ const Signup = () => {
   return (
     <div className="signup-container">
         <h1 className="signup-title">Signup</h1>
+
+        <label>Fullname*</label>
         <input onChange={handleChange} name='fullname' type="text" placeholder="Full Name" className="signup-input" />
+
+        <label>Email*</label>
         <input onChange={handleChange}  name='email' type="email" placeholder="Email" className="signup-input" />
-        <input onChange={handleChange}  name='phonenumber' type="text" placeholder="Phonenumber" className="signup-input" />
-        <div className='password-wrapper'>
+
+        <label>Phonenumber*</label>
+        <input onChange={handleChange}  name='phonenumber' type="number" placeholder="Phonenumber" className="signup-input" />
+
+        <label>Password*</label>
+        <div style={{marginBottom:"20px"}} className='password-wrapper'>
           <input onChange={handleChange}  name='password' style={{border:"0",margin:"0px"}} type={!eye ? "password" : "text"} placeholder="Password" className="signup-input" />
           <div onClick={()=>(setEye(!eye))}>{eye ? <><i className='ri-eye-line'></i></> : <><i className='ri-eye-close-line'></i></>}</div>
         </div>
+
+        <label>Confirm Password*</label>
         <input onChange={handleChange}  type="password" name='confirm_password' placeholder="Confirm password" className="signup-input" />
+
+        <label>Role*</label>
         <select name='role' onChange={handleChange}>
           <option value="" disabled>
             Choose role

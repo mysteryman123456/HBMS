@@ -37,7 +37,7 @@ button{
   border-radius: 8px;
 }
 .signup-container select{
-  padding: 15px;
+  padding: 10px;
   width: 100%;
   margin-bottom: 15px;
   font-size: 14px;
@@ -52,8 +52,8 @@ button{
 }
 
 .signup-input{
-  width:calc(100% - 30px);
-  padding:15px;
+  width:calc(100% - 20px);
+  padding:10px;
   margin-bottom:20px;
   font-size: 14px;
   border: 1px solid #ddd;
@@ -62,8 +62,8 @@ button{
 
 .signup-button {
   width: 100%;
-  padding: 15px;
-  font-size: 18px;
+  padding: 10px;
+  font-size: 16px;
   font-weight:550;
   color: #ffffff;
   background-color:rgb(219, 77, 68);
@@ -132,7 +132,6 @@ nav,.nav-right-side{
 }
 
 .footer-section {
-  flex: 1 1 40%;
   margin: 10px;
 }
 
@@ -153,6 +152,7 @@ nav,.nav-right-side{
 }
 
 .footer-link {
+  font-size:14px;
   color: rgb(209, 209, 209);
   margin-bottom: 5px;
   display: block;
@@ -160,22 +160,4 @@ nav,.nav-right-side{
 
 .footer-link:hover {
   color:white;
-}
-
-.footer-star {
-  color: #ccc; 
-}
-
-.footer-star.filled {
-  color: #f8d100;
-}
-
-.footer-average-rating {
-  font-weight: bold;
-  margin: 10px 0;
-}
-
-.footer-reviews {
-  margin: 10px 0;
-  font-style: italic;
 }

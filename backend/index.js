@@ -73,6 +73,81 @@ app.post('/login', async (req, res) => {
   }
 });
 
+
+
+// Unique id for adding website
+const crypto = require("crypto");
+function UUID() {
+  const uuid = crypto.randomUUID(); 
+  const alphanumericPart = uuid.replace(/-/g, ""); 
+  return alphanumericPart.slice(0, 20); 
+}
+const hotel_id = UUID();
+
+// cloudinary imports
+const multer = require("multer");
+const { v2: cloudinary } = require("cloudinary");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME, 
+  api_key: process.env.API_KEY,       
+  api_secret: process.env.API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "hotel_images", 
+    format: async (req, file) => "jpg", 
+    public_id: (req, file) => file.originalname.split(".")[0], 
+  },
+});
+
+const upload = multer({ storage: storage });
+
+app.post("/add-hotel", upload.array("images"), async (req, res) => {
+  const {
+    hotel_name,
+    hotel_location,
+    l_l,
+    room_capacity,
+    room_type,
+    room_number,
+    price,
+    amenities,
+  } = req.body;
+
+  const amenitiesParsed = JSON.stringify(amenities);
+
+  try {
+    const hotelResult = await pool.query(
+      `INSERT INTO Hotel (hotel_id , hotel_name, l_l, hotel_location, amenities) 
+       VALUES ($1, $2, $3, $4 , $5) RETURNING hotel_id`,
+      [hotel_id , hotel_name, l_l, hotel_location, amenitiesParsed]
+    );
+
+    const imagePromises = req.files.map((file) =>
+      pool.query(
+        `INSERT INTO Hotel_image (hotel_id, image_url) VALUES ($1, $2)`,
+        [hotel_id, file.path]
+      )
+    );
+    await Promise.all(imagePromises);
+
+    await pool.query(
+      `INSERT INTO Room (room_number, hotel_id, room_capacity, room_type, price) 
+       VALUES ($1, $2, $3, $4, $5)`,
+      [room_number, hotel_id, room_capacity, room_type, price]
+    );
+
+    res.status(201).json({ message: "Hotel listed successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred"});
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

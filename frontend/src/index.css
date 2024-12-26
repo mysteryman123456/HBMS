@@ -212,7 +212,6 @@ nav,.nav-right-side{
   color: black;
   font-size: 14px;
   margin:-7px 0;
-  font-weight:500;
 }
 
 .lp_checkbox input[type="checkbox"]:checked + .custom_checkbox {

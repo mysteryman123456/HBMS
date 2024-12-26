@@ -46,7 +46,6 @@ const HoteListing = () => {
     }));
   };
 
-
   useEffect(() => {
     const getCurrentLocation = () => {
       if (navigator.geolocation) {
@@ -74,10 +73,66 @@ const HoteListing = () => {
     setHotelDetails((prev) => ({ ...prev, images: [...prev.images, ...files] }));
   };
 
-  const handleSubmit = () => {
-    console.log("Hotel Details:", hotelDetails);
-  };
+  const handleSubmit = async () => {
+    if (!hotelDetails.images || hotelDetails.images.length === 0) {
+      window.failure("One image is required");
+      return;
+    }
+  
+    if (isNaN(hotelDetails.price) || hotelDetails.price <= 0) {
+      window.failure("Please enter valid price");
+      return;
+    }
+  
+    const requiredFields = [
+      'hotel_name',
+      'hotel_location',
+      'l_l',
+      'room_capacity',
+      'room_type',
+      'room_number',
+    ];
 
+    const toTitle = (str) => {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+    
+    for (const field of requiredFields) {
+      if (!hotelDetails[field]) {
+        window.failure(`${toTitle(field.replace('_', ' '))} is required`);
+        return;
+      }
+    }
+  
+    const formData = new FormData();
+    formData.append("hotel_name", hotelDetails.hotel_name);
+    formData.append("hotel_location", hotelDetails.hotel_location);
+    formData.append("l_l", hotelDetails.l_l);
+    formData.append("room_capacity", hotelDetails.room_capacity);
+    formData.append("room_type", hotelDetails.room_type);
+    formData.append("room_number", hotelDetails.room_number);
+    formData.append("price", hotelDetails.price);
+    formData.append("amenities", JSON.stringify(hotelDetails.amenities));
+    
+    hotelDetails.images.forEach((image) => {
+      formData.append("images", image);
+    });
+  
+    try {
+      const response = await fetch("http://localhost:3008/add-hotel", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+      if (response.ok && response.status === 201) {
+        window.success(data.message);
+      } else {
+        window.failure(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="lp_dashboard">
 

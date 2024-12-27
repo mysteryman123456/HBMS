@@ -113,6 +113,7 @@ const upload = multer({ storage: storage });
 
 app.post("/add-hotel", upload.array("images"), async (req, res) => {
   const {
+    seller_email,
     hotel_name,
     hotel_location,
     l_l,
@@ -127,9 +128,9 @@ app.post("/add-hotel", upload.array("images"), async (req, res) => {
 
   try {
     const hotelResult = await pool.query(
-      `INSERT INTO Hotel (hotel_id , hotel_name, l_l, hotel_location, amenities) 
-       VALUES ($1, $2, $3, $4 , $5) RETURNING hotel_id`,
-      [hotel_id , hotel_name, l_l, hotel_location, amenitiesParsed]
+      `INSERT INTO Hotel (hotel_id , hotel_name, l_l, hotel_location, amenities ,seller_email) 
+       VALUES ($1, $2, $3, $4 , $5 ,$6) RETURNING hotel_id`,
+      [hotel_id , hotel_name, l_l, hotel_location, amenitiesParsed , seller_email]
     );
 
     const imagePromises = req.files.map((file) =>

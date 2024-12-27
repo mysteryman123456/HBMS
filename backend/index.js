@@ -154,6 +154,34 @@ app.post("/add-hotel", upload.array("images"), async (req, res) => {
   }
 });
 
+app.post("/fetch-hotel-edit",async(req , res)=>{
+  const {seller_email} = req.body
+  try{
+    const data = await pool.query(`
+    SELECT 
+      Hotel.hotel_name,
+      Hotel.hotel_location,
+      Hotel.amenities,
+      Room.room_number,
+      Room.room_capacity,
+      Room.room_type,
+      Room.price
+    FROM 
+      Hotel
+    INNER JOIN 
+      Room
+    ON 
+      Hotel.hotel_id = Room.hotel_id
+    WHERE 
+      Hotel.seller_email = $1`,[seller_email]);
+      res.status(200).json({rows : data.rows[0]})
+  }
+  catch(err){
+    res.status(400).json({message : "Internal server error"})
+    console.log(err)
+  }
+  });
+  
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

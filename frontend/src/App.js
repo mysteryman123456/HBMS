@@ -10,6 +10,7 @@ import UserDashboard from "./Components/UserDashboard"
 import ProductPage from "./Components/ProductPage"
 import SearchPage from "./Components/SearchPage"
 import NotFound from "./Components/NotFound"
+import EditListing from './Components/EditListing';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/user-dashboard" element={<UserDashboard />} />
             <Route path="/hotel-admin-dashboard/" element={<HotelAdminDashboard />}>
                 <Route path="add-listing" element={<HotelListing />} />
+                <Route path="edit-listing" element={<EditListing />} />
                 <Route index element={<HotelListing />} />
                 <Route path="*" element={<NotFound />} />
             </Route> 

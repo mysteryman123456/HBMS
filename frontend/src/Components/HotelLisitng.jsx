@@ -2,6 +2,7 @@ import React, { useState , useEffect } from "react";
 
 const HoteListing = () => {
   const [hotelDetails, setHotelDetails] = useState({
+    seller_email : "nschldhl61@gmail.com",
     hotel_name: "",
     hotel_location: "",
     l_l : "",

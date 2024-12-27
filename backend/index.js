@@ -158,23 +158,25 @@ app.post("/fetch-hotel-edit",async(req , res)=>{
   const {seller_email} = req.body
   try{
     const data = await pool.query(`
-    SELECT 
-      Hotel.hotel_name,
-      Hotel.hotel_id,
-      Hotel.hotel_location,
-      Hotel.amenities,
-      Room.room_number,
-      Room.room_capacity,
-      Room.room_type,
-      Room.price
-    FROM 
-      Hotel
-    INNER JOIN 
-      Room
-    ON 
-      Hotel.hotel_id = Room.hotel_id
-    WHERE 
-      Hotel.seller_email = $1`,[seller_email]);
+  SELECT 
+    Hotel.hotel_name,
+    Hotel.hotel_id,
+    Hotel.hotel_location,
+    Hotel.amenities,
+    Room.room_number,
+    Room.room_capacity,
+    Room.room_type,
+    Room.price
+  FROM 
+    Hotel
+  INNER JOIN 
+    Room
+  ON 
+    Hotel.hotel_id = Room.hotel_id
+  WHERE 
+    Hotel.seller_email = $1
+  ORDER BY 
+    Hotel.hotel_id DESC`,[seller_email]);
       res.status(200).json({rows : data.rows})
   }
   catch(err){
@@ -182,6 +184,56 @@ app.post("/fetch-hotel-edit",async(req , res)=>{
     console.log(err)
   }
   });
+
+  app.put("/update-listing", async (req, res) => {
+    const {
+        seller_email,
+        hotel_name,
+        hotel_location,
+        amenities,
+        price,
+        room_number,
+        room_capacity,
+        hotel_id
+    } = req.body;
+
+    try {
+      const hotelUpdateQuery = `
+            UPDATE Hotel 
+            SET hotel_name = $1, hotel_location = $2, amenities = $3
+            WHERE hotel_id = $4 AND seller_email = $5;
+        `;
+
+        const hotelResult = await pool.query(hotelUpdateQuery, [
+            hotel_name,
+            hotel_location,
+            JSON.stringify(amenities),
+            hotel_id,
+            seller_email
+        ]);
+
+        const roomUpdateQuery = `
+            UPDATE Room 
+            SET price = $1, room_number = $2, room_capacity = $3
+            WHERE hotel_id = $4;
+        `;
+
+        const roomResult = await pool.query(roomUpdateQuery, [
+            price,
+            room_number,
+            room_capacity,
+            hotel_id
+        ]);
+
+        if (hotelResult.affectedRows === 0 && roomResult.affectedRows === 0) {
+            return res.status(404).json({ message: "No record found!" });
+        }
+        res.status(200).json({ message: "Listing updated successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error!" });
+    }
+});
   
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

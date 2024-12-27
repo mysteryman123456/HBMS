@@ -117,7 +117,7 @@ const HoteListing = () => {
         return;
       }
     }
-  
+    
     const formData = new FormData();
     formData.append("hotel_name", hotelDetails.hotel_name);
     formData.append("hotel_location", hotelDetails.hotel_location);

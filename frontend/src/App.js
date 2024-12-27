@@ -11,9 +11,11 @@ import ProductPage from "./Components/ProductPage"
 import SearchPage from "./Components/SearchPage"
 import NotFound from "./Components/NotFound"
 import EditListing from './Components/EditListing';
+import {SessionProvider} from "./Context/SessionContext"
 
 function App() {
   return (
+    <SessionProvider>
     <Router>
         <Navbar/>
           <Routes>
@@ -33,6 +35,7 @@ function App() {
           </Routes>
         <Footer/>
     </Router>
+    </SessionProvider>
   );
 }
 export default App

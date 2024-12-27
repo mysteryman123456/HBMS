@@ -1,7 +1,11 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
+import useAuth from "../CustomHooks/useAuth";
 
 const HotelAdminDashboard = () => {
+
+  useAuth();
+
   return (
     <div className="dashboard-container">
       <aside className="dashboard-sidebar">

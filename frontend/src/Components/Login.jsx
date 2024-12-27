@@ -31,13 +31,13 @@ const Login = () => {
 
       if (response.ok && response.status === 200) {
         window.success(data.message);
-        console.log(data.user.email)
+        localStorage.setItem("token",data.token)
         navigate("/");
       } else {
         window.failure(data.message);
       }
     } catch (error) {
-      console.log('Error during login');
+      console.log('Error login');
     }
     finally{
       setLoading(false);

@@ -1,6 +1,9 @@
 import React, { useState , useEffect } from "react";
+import { useSession } from '../Context/SessionContext';
 
 const HoteListing = () => {
+  const {sessionData} = useSession();
+
   const [hotelDetails, setHotelDetails] = useState({
     seller_email : "nschldhl61@gmail.com",
     hotel_name: "",
@@ -13,6 +16,16 @@ const HoteListing = () => {
     amenities: [],
     images: []
   });
+
+  useEffect(() => {
+    if (sessionData?.email) {
+      setHotelDetails((prevData) => ({
+        ...prevData,
+        seller_email: sessionData.email,
+      }));
+    }
+  }, [sessionData]);
+
 
   const amenitiesList = [
     "Free WiFi",

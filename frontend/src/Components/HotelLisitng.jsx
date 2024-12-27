@@ -126,6 +126,7 @@ const HoteListing = () => {
     formData.append("room_type", hotelDetails.room_type);
     formData.append("room_number", hotelDetails.room_number);
     formData.append("price", hotelDetails.price);
+    formData.append("seller_email", hotelDetails.seller_email);
     formData.append("amenities", JSON.stringify(hotelDetails.amenities));
     
     hotelDetails.images.forEach((image) => {

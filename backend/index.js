@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const pool = require('./db.js');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
 require('dotenv').config();
 const app = express();
 const PORT = 3008;
@@ -43,13 +44,10 @@ app.post('/signup', async (req, res) => {
 
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
-
   if (!email || !password) {
     return res.status(400).json({ message: "Fields can't be empty"});
   }
-
   try {
-
     const user = await pool.query(
       'SELECT * FROM Users WHERE email = $1',
       [email]
@@ -64,15 +62,22 @@ app.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
+    const payload = {
+      email : user.rows[0].email,
+      role : user.rows[0].role,
+    }
+
+    const token = jwt.sign(payload, process.env.JWT_TOKEN, { expiresIn: "30d" });
+
     res.status(200).json({
       message: 'Login successful',
-      user: {email : email},
+      token : token,
     });
+
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
-
 
 
 // Unique id for adding website

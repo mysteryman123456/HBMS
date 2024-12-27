@@ -215,9 +215,7 @@ nav,.nav-right-side{
 }
 
 .lp_checkbox input[type="checkbox"]:checked + .custom_checkbox {
-  background-color: black;
-  border: 0.1px solid lightgrey;
-  color: white;
+  border:.1px solid #303030;
 }
 
 #images{
@@ -272,4 +270,58 @@ input::file-selector-button {
 }
 .dashboard-content {
   padding: 20px;
+}
+
+/* edit card */
+
+.ec_card {
+  padding: 10px 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border:1px solid #eee;
+  margin:0px auto 20px auto;
+}
+
+.ec_card .label{
+  margin-top:5px;
+  margin-bottom: -7px;
+}
+
+.ec_input {
+  background-color:rgb(251, 251, 251);
+  padding: 10px;
+  border:.1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ec_buttons {
+  display: flex;
+  justify-content:flex-end;
+  gap: 10px;
+}
+
+.ec_button_save {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.ec_button_delete {
+  background-color: #bf160a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
 }

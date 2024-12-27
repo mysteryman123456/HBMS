@@ -1,6 +1,6 @@
 import React, { useState , useEffect } from "react";
 import { useSession } from '../Context/SessionContext';
-
+import amenitiesList from "./Ammenities";
 const HoteListing = () => {
   const {sessionData} = useSession();
 
@@ -25,25 +25,6 @@ const HoteListing = () => {
       }));
     }
   }, [sessionData]);
-
-
-  const amenitiesList = [
-    "Free WiFi",
-    "Swimming Pool",
-    "Parking",
-    "Air Conditioning",
-    "Restaurant",
-    "Gym",
-    "Spa",
-    "Room Service",
-    "Bar",
-    "Pet Friendly",
-    "Laundry Service",
-    "Airport Shuttle",
-    "Breakfast Included",
-    "Conference Room",
-    "24-hour Reception"
-  ];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

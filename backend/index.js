@@ -160,6 +160,7 @@ app.post("/fetch-hotel-edit",async(req , res)=>{
     const data = await pool.query(`
     SELECT 
       Hotel.hotel_name,
+      Hotel.hotel_id,
       Hotel.hotel_location,
       Hotel.amenities,
       Room.room_number,
@@ -174,7 +175,7 @@ app.post("/fetch-hotel-edit",async(req , res)=>{
       Hotel.hotel_id = Room.hotel_id
     WHERE 
       Hotel.seller_email = $1`,[seller_email]);
-      res.status(200).json({rows : data.rows[0]})
+      res.status(200).json({rows : data.rows})
   }
   catch(err){
     res.status(400).json({message : "Internal server error"})

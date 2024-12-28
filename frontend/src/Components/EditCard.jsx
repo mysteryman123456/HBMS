@@ -6,6 +6,7 @@ const EditCard = ({ editData }) => {
   const {sessionData} = useSession();
   const [newData, setEditedData] = useState(editData);
   const [newAmenities , setNewAmenities] = useState(JSON.parse(newData.amenities));
+  const[hideCard , setHideCard] = useState("");
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -27,7 +28,6 @@ const EditCard = ({ editData }) => {
     seller_email : sessionData?.email || "",
   }
   const updateData= async ()=>{
-
     for (let key in newUpdatedData) {
         if (typeof newUpdatedData[key] === "string" && newUpdatedData[key].trim().length === 0) {
             window.failure("Fields can't be empty");
@@ -80,6 +80,7 @@ const EditCard = ({ editData }) => {
       const data = await response.json();
       if(response.ok){
           window.success(data.message);
+          setHideCard(dataId)
       }else{
           window.failure(data.message);
       }
@@ -90,7 +91,7 @@ const EditCard = ({ editData }) => {
   }
   
   return (
-    <div className="ec_card">
+    <div style={hideCard === editData.hotel_id ? { display: "none" } : {}}  className="ec_card">
       <small className='label'>Hotel name</small>
       <input
         className="ec_input"

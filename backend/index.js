@@ -234,7 +234,44 @@ app.post("/fetch-hotel-edit",async(req , res)=>{
         res.status(500).json({ message: "Server error!" });
     }
 });
-  
+
+app.delete("/delete-listing", async (req, res) => {
+  const { seller_email, hotel_id } = req.body;
+
+  if (!seller_email || !hotel_id) {
+    return res.status(400).json({ message: "Invalid data provided!" });
+  }
+  const client = await pool.connect(); 
+  try {
+    await client.query("BEGIN"); 
+    const hotelResult = await client.query(
+      "DELETE FROM Hotel WHERE hotel_id = $1 AND seller_email = $2 RETURNING hotel_id",
+      [hotel_id, seller_email]
+    );
+    if (hotelResult.rowCount === 0) {
+      await client.query("ROLLBACK");
+      return res.status(404).json({ message: "Listing not found!" });
+    }
+    await client.query(
+      "DELETE FROM Room WHERE hotel_id = $1",
+      [hotel_id]
+    );
+    await client.query(
+      "DELETE FROM Hotel_image WHERE hotel_id = $1",
+      [hotel_id]
+    );
+
+    await client.query("COMMIT");
+    res.status(200).json({ message: "Listing deleted successfully!" });
+
+  } catch (err) {
+    await client.query("ROLLBACK");
+    console.error("Could not delete!");
+    res.status(500).json({ message: "Server error!" });
+  } finally {
+    client.release();
+  }
+});
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

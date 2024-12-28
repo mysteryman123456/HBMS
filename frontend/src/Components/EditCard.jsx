@@ -58,6 +58,36 @@ const EditCard = ({ editData }) => {
         window.failure("Server error!")
     }
   }
+
+  const deleteData = async (event)=>{
+    const dataId = event.currentTarget.getAttribute("data-id");
+    if(!dataId){
+      window.failure("Please try again later!");
+      return
+    }
+    try{
+      const response = await fetch("http://localhost:3008/delete-listing",{
+          method:"DELETE",
+          headers : {
+              "Content-Type" : "application/json"
+          },
+          body : JSON.stringify(
+            {
+            seller_email : newUpdatedData.seller_email,
+            hotel_id : dataId,
+          })
+      })
+      const data = await response.json();
+      if(response.ok){
+          window.success(data.message);
+      }else{
+          window.failure(data.message);
+      }
+    }
+    catch{
+      window.failure("Server error!")
+    }
+  }
   
   return (
     <div className="ec_card">
@@ -133,7 +163,7 @@ const EditCard = ({ editData }) => {
 
       <div className="ec_buttons">
         <button onClick={updateData} className="ec_button_save">Save Details</button>
-        <button className="ec_button_delete">
+        <button onClick={deleteData} data-id={`${editData.hotel_id}`} className="ec_button_delete">
           Delete <i className="ri-delete-bin-5-fill"></i>
         </button>
       </div>

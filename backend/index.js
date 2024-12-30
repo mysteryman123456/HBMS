@@ -76,6 +76,7 @@ app.post('/login', async (req, res) => {
 
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
+    console.log(error)
   }
 });
 

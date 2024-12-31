@@ -5,7 +5,7 @@ const Home = () => {
   const [l_n, setL_N] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filteredResults, setFilteredResults] = useState([]);
-  
+
   useEffect(() => {
     const fetchLocationName = async () => {
       try {

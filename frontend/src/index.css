@@ -390,7 +390,6 @@ input::file-selector-button {
   justify-content: space-between;
  }
  .guest_selection input{
-  text-align:right;
   max-width:40px;
  }
  .guest_selection p{

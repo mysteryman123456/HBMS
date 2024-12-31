@@ -359,8 +359,11 @@ input::file-selector-button {
   flex-direction:row;
   gap:10px;
  }
+ .searchbar input{
+  border-radius:5px;
+ }
  .guest_selection,.name_search,.location_search{
-  overflow:hidden;
+  position: relative;
   background-color:white;
   border-radius:5px;
   border:1px solid #aaa;
@@ -429,3 +432,25 @@ input::file-selector-button {
   margin-top: 5px;
   font-size:15px;
  }
+ .searched_results {
+  padding:10px;
+  margin:10px;
+  font-style:14px;
+  border-radius: 5px;
+  background-color: rgb(245, 245, 245);
+  cursor: pointer;
+  text-align: left;
+}
+.search_results_box {
+  top: 105%;
+  border-radius: 5px;
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.searched_results:hover{
+  background-color:rgb(232, 232, 232);
+}

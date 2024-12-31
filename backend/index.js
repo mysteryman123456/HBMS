@@ -272,6 +272,29 @@ app.delete("/delete-listing", async (req, res) => {
     client.release();
   }
 });
+
+app.get("/get-hotel-location-name",async(req , res)=>{
+  try{
+   const data =  await pool.query(`
+    SELECT 
+      hotel_location,
+      hotel_name
+      FROM  
+      Hotel
+    `)
+    if(data.rowCount > 0){
+      res.status(200).json({message : data.rows})
+    }else{
+      res.status(404).json({message : "No data available"})
+    }
+  }
+  catch(err){
+    console.log(err);
+    res.status(404).json({message : "No data available"})
+  }
+
+})
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

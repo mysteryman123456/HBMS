@@ -17,7 +17,7 @@ const Navbar = () => {
         </div>
         <div className="login-signup">
             <i className="ri-account-circle-fill"></i>
-            <div><Link to="/signup">Login / Signup</Link></div>
+            <div style={{color:"darkgrey"}}><Link to="/login">Login</Link> /<Link to="/signup"> Signup</Link></div>
         </div>
       </div>
     </nav>

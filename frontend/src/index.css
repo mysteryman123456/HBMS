@@ -358,9 +358,9 @@ input::file-selector-button {
  }
  .searchbar input{
   border: 0;
-  padding:20px;
+  padding:15px;
   font-weight:500;
-  font-size:20px;
+  font-size:16px;
  }
  .searchbar{
   position: relative;
@@ -372,26 +372,26 @@ input::file-selector-button {
   gap:10px;
  }
  .searchbar input{
+  width: 100%;
+  min-width:200px;
   border-radius:5px;
  }
  .guest_selection,.name_search,.location_search{
   position: relative;
   background-color:white;
   border-radius:5px;
-  border:1px solid #aaa;
+  border:2px solid lightcoral;
+  display: flex;
+  align-items: center;
  }
  .guest_selection i,.name_search i,.location_search i{
-  margin-left:20px;
+  margin-left:10px;
   font-size:25px;
  }
  .guest_selection{
   display: flex;
   align-items: center;
   justify-content: space-between;
- }
- .guest_selection input{
-  text-align:right;
-  max-width:40px;
  }
  .guest_selection p{
   margin-right:40px;
@@ -400,7 +400,7 @@ input::file-selector-button {
   color:darkgrey;
   display: flex;
   align-items: center;
-  font-size:20px;
+  font-size:16px;
  }
  .searchbar_container h1{
   position: relative;
@@ -453,6 +453,7 @@ input::file-selector-button {
   text-align: left;
 }
 .search_results_box {
+  z-index: 99999;
   top: 105%;
   border-radius: 5px;
   position: absolute;

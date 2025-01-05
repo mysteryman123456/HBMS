@@ -7,7 +7,9 @@ const Home = () => {
   const [filteredResults, setFilteredResults] = useState([]);
   const [filteredHotelName, setFilteredHotelName] = useState([]);
   const[hotelName , setHotelName] = useState("");
+  const[loading , setLoading] = useState(false);
   const[guest_count , setGuestCount] = useState(1);
+  const[listings , setLisitng] = useState([]);
   
   useEffect(() => {
     const fetchLocationName = async () => {
@@ -28,6 +30,30 @@ const Home = () => {
         console.error("Network error:", err);
       }
     };
+    const fetchListing = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          "http://localhost:3008/get-hotel-listing",
+          {
+            method: "GET",
+          }
+        );
+        const data = await response.json();
+        if (response.ok) {
+          console.log(data.message);
+          setLisitng(data.message);
+        } else {
+          console.error(data.message);
+        }
+      } catch (err) {
+        console.error("Network error:", err);
+      }
+      finally{
+        setLoading(false);
+      }
+    };
+    fetchListing();
     fetchLocationName();
   }, []);
 
@@ -66,7 +92,6 @@ const Home = () => {
       hotel_location : searchText,
       guest_count : guest_count
     }
-    console.log(dataToSend);
   }
 
   return (
@@ -147,6 +172,37 @@ const Home = () => {
             <i className="ri-wifi-line"></i>
             <p>Free Wifi</p>
           </div>
+        </div>
+      </div>
+      <div className="listings-container">
+        <h2>Top Featured Hotels</h2>
+        {
+          loading === true ?
+          <div className="loading">
+              <div className="loading_image"></div>
+              <div className="loading_name"></div>
+              <div className="loading_location"></div>
+              <div className="loading_price"></div>
+              <div className="loading_taxes"></div>
+          </div>
+          :
+          <></>
+          
+        }
+        <div className="listings">
+          {
+            listings.map((listing , index)=>(
+              <div className="listing" key={index}>
+                <div className="h_image">
+                  <img height={150} width={250} src={listing.hotel_image} />
+                </div>
+                <p className="hotel_name">{listing.hotel_name}</p>
+                <p className="hotel_location">{listing.hotel_location}</p>
+                <p className="hotel_price">NPR {listing.price}</p>
+                <span className="hotel_taxes">+ NPR 0 taxes</span>
+              </div>
+            ))
+          }
         </div>
       </div>
     </>

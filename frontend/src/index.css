@@ -428,7 +428,7 @@ input::file-selector-button {
  .essentials{
   display: flex;
   align-items: center;
-  background-color:rgb(232, 232, 232);
+  background-color:rgb(241, 241, 241);
   padding:20px;
  }
  .features{
@@ -571,4 +571,139 @@ input::file-selector-button {
   100% {
     background-position: -200% 0;
   }
+}
+
+/* search and filter page */
+.search-page{
+  display: flex;
+}
+.filter_container {
+  width: 250px;
+  min-width: 250px;
+  padding: 16px;
+  background-color: #fff;
+  border-right:.1px solid #ddd;
+}
+.filter_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.filter_header h2{
+  font-size: 18px;
+  font-weight:550;
+}
+
+.filter_clear {
+  color: red;
+  font-size: 14px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.filter_container label input{
+  position: relative;
+  top:2.5px;
+}
+.filter_search {
+  margin-bottom: 16px;
+}
+
+.filter_search_input {
+  width: 100%;
+  padding:10px 0 8px 0;
+  font-size: 14px;
+  border:0;
+  border-bottom: 1px solid #ddd;
+}
+
+.filter_section {
+  margin-bottom: 16px;
+}
+
+.filter_section h3 {
+  margin-bottom:10px;
+  margin-top:20px;
+  font-size:15px;
+  font-weight: 500;
+}
+
+.filter_price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter_price_input {
+  width:100%;
+  padding:10px;
+  font-size: 13px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.filter_categories label,
+.filter_facilities label {
+  display: block;
+  margin-bottom:12px;
+  margin-top: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.filter_categories input,
+.filter_facilities input {
+  margin-right: 8px;
+}
+
+.filter_ratings {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rating_option {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: darkgray;
+  transition: color 0.2s ease;
+}
+
+.rating_option input {
+  display: none;
+}
+
+.rating_option i {
+  color: rgb(188, 151, 58); 
+  font-size: 16px;
+  margin-right: 4px;
+}
+
+.rating_option span {
+  font-size: 14px;
+}
+
+.rating_option input:checked + div span{
+  color: black;
+}
+.filter_price select{
+  background-color:white;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius:5px;
+}
+.filter_btn{
+  margin-top:10px;
+  padding:10px;
+  border:0;
+  background-color:white;
+  border:1px solid #aaa;
+  border-radius:4px;
+  width:100%;
+  font-weight:500;
+  font-size:15px;
 }

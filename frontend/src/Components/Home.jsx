@@ -1,7 +1,9 @@
 import { use, useEffect, useState } from "react";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [l_n, setL_N] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filteredResults, setFilteredResults] = useState([]);
@@ -92,6 +94,8 @@ const Home = () => {
       hotel_location : searchText,
       guest_count : guest_count
     }
+    const queryParameters = new URLSearchParams(dataToSend).toString();
+    navigate(`/search?${queryParameters}`)
   }
 
   return (

@@ -175,7 +175,7 @@ const Home = () => {
         </div>
       </div>
       <div className="listings-container">
-        <h2>Top Featured Hotels</h2>
+        <h2>Top Featured Hotels on Nuby</h2>
         {
           loading === true ?
           <div className="loading">
@@ -194,12 +194,12 @@ const Home = () => {
             listings.map((listing , index)=>(
               <div className="listing" key={index}>
                 <div className="h_image">
-                  <img height={150} width={250} src={listing.hotel_image} />
+                  <img width="100%" height={200} src={listing.hotel_image} />
                 </div>
                 <p className="hotel_name">{listing.hotel_name}</p>
                 <p className="hotel_location">{listing.hotel_location}</p>
                 <p className="hotel_price">NPR {listing.price}</p>
-                <span className="hotel_taxes">+ NPR 0 taxes</span>
+                <div className="hotel_taxes">+ NPR 0 taxes</div>
               </div>
             ))
           }

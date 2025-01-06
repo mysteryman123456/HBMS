@@ -467,3 +467,108 @@ input::file-selector-button {
 .searched_results:hover{
   background-color:rgb(242, 242, 242);
 }
+.listings-container h2{
+  font-weight:550;
+  margin:20px 20px 0 20px;
+}
+.listings {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.listing {
+  width: 300px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+  text-align: left;
+}
+.h_image{
+  width: 100%;
+  max-height:200px;
+  min-height:200px;
+}
+.h_image img {
+  object-fit:cover;
+}
+.hotel_name {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 12px 12px 4px;
+  color: #333;
+}
+.hotel_location {
+  font-size: 14px;
+  margin: 4px 12px;
+  color: #777;
+}
+.hotel_price {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 8px 12px;
+  color: #e63946;
+}
+
+.hotel_taxes {
+  margin-bottom: 5px;
+  font-size: 12px;
+  margin: 0 12px 12px;
+  color: #555;
+}
+.loading {
+  margin-top: 20px;
+  width: 300px;
+  border: .1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+  margin-left: 20px;
+}
+
+.loading_image {
+  width: 100%;
+  height: 200px; /* As per your request */
+  background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 8px;
+}
+
+.loading_name,
+.loading_location,
+.loading_price,
+.loading_taxes {
+  height:15px;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+  margin:6px 0;
+}
+
+.loading_name {
+  width: 70%;
+}
+
+.loading_location {
+  width: 50%;
+}
+
+.loading_price {
+  width: 40%;
+}
+
+.loading_taxes {
+  width: 60%;
+}
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

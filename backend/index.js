@@ -325,6 +325,50 @@ app.get("/get-hotel-listing", async (req, res) => {
   }
 });
 
+app.get("/get-searched-listing", async (req, res) => {
+  const { hotel_location, hotel_name, guest_count } = req.query;
+  console.log({ hotel_location, hotel_name, guest_count });
+  try {
+    const query = `
+      SELECT 
+        h.hotel_id,
+        h.hotel_location,
+        h.amenities,
+        h.hotel_name,
+        r.room_capacity,
+        r.room_type,
+        r.price,
+        (SELECT AVG(stars) FROM Review WHERE h.hotel_id = Review.hotel_id) AS avg_rating,
+        (SELECT image_url FROM hotel_image WHERE hotel_image.hotel_id = h.hotel_id LIMIT 1) AS hotel_image
+      FROM Hotel h
+      INNER JOIN Room r ON r.hotel_id = h.hotel_id
+      WHERE r.availability_status = TRUE
+        AND ($1::TEXT IS NULL OR h.hotel_location ILIKE $1)
+        AND ($2::TEXT IS NULL OR h.hotel_name ILIKE $2)
+        AND ($3::INT IS NULL OR r.room_capacity >= $3);
+    `;
+    const params = [
+      hotel_location ? `%${hotel_location}%` : null,
+      hotel_name ? `%${hotel_name}%` : null,
+      guest_count ? parseInt(guest_count) : null,
+    ];
+    const data = await pool.query(query, params);
+    if (data.rowCount > 0) {
+      res.status(200).json({ message: data.rows });
+    } else {
+      res.status(404).json({ message: "No data available" });
+    }
+  } catch (err) {
+    console.error("Database query error:", err);
+    res.status(500).json({ message: "An error occurred while fetching data" });
+  }
+});
+
+
+
+
+
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

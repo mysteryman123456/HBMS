@@ -1,4 +1,4 @@
-import React , {useState} from 'react'
+import React , {useEffect, useState} from 'react'
 import { useLocation } from 'react-router-dom'
 import amenitiesList from './Ammenities';
 
@@ -8,6 +8,31 @@ const SearchPage = () => {
   const hotel_location = queryParameters.get("hotel_location")
   const hotel_name = queryParameters.get("hotel_name")
   const guest_count = queryParameters.get("guest_count")
+  const[listingData , setListingData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3008/get-searched-listing/?hotel_name=${hotel_name}&hotel_location=${hotel_location}&guest_count=${guest_count}`,
+          {
+            method: 'GET',
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setListingData(data.message);
+          console.log(data.message);
+        } else {
+          console.log("Error fetching!");
+        }
+      } catch (err) {
+        console.error("Error:", err);
+      }
+    };
+  
+    fetchData();
+  }, [hotel_name, hotel_location, guest_count]);
 
   const [filters, setFilters] = useState({
     minPrice: "",
@@ -196,8 +221,35 @@ const SearchPage = () => {
             Filter results
           </button>
         </div>
-      <div className="search-card">
-        Search card here....
+        <div class="search-card">
+        {listingData.length > 0 ? (
+          listingData.map((card, index) => (
+            <div key={index} className="card">
+              <div class="card-image">
+                <img src={card.hotel_image} alt={card.hotel_name} />
+              </div>
+              <div class="card-details">
+                <h3 class="hotel-name">{card.hotel_name}</h3>
+                <p class="hotel-location">{card.hotel_location}</p>
+                <p class="room-details">{card.room_type} • {card.room_capacity} people</p>
+                <p class="amenities">
+                  {JSON.parse(card.amenities).slice(0, 4).join(", ")} + more
+                </p>
+                <p className="rating">{card.avg_rating ? card.avg_rating : "No rating"}</p>
+                <div class="price-details">
+                  <span class="price">NPR {parseFloat(card.price).toFixed(2)}</span>
+                  <small> per night</small>
+                </div>
+                <div class="card-actions">
+                  <button class="view-details">View Details</button>
+                  <button class="book-now">Book Now</button>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No listings available</p>
+        )}
       </div>
     </div>
   )

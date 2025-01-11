@@ -237,7 +237,6 @@ app.post("/fetch-hotel-edit",async(req , res)=>{
 
 app.delete("/delete-listing", async (req, res) => {
   const { seller_email, hotel_id } = req.body;
-
   if (!seller_email || !hotel_id) {
     return res.status(400).json({ message: "Invalid data provided!" });
   }
@@ -326,10 +325,33 @@ app.get("/get-hotel-listing", async (req, res) => {
 });
 
 app.get("/get-searched-listing", async (req, res) => {
-  const { hotel_location, hotel_name, guest_count } = req.query;
-  console.log({ hotel_location, hotel_name, guest_count });
+  const {
+    hotel_location,
+    hotel_name,
+    guest_count,
+    minPrice,
+    maxPrice,
+    sortedPrice,
+    rating,
+    sortedRating,
+    roomCategories,
+    hotelFacilities,
+  } = req.query;
+
+console.log({
+  hotel_location,
+  hotel_name,
+  guest_count,
+  minPrice,
+  maxPrice,
+  sortedPrice,
+  rating,
+  sortedRating,
+  roomCategories,
+  hotelFacilities,
+} )
   try {
-    const query = `
+    let query = `
       SELECT 
         h.hotel_id,
         h.hotel_location,
@@ -343,29 +365,79 @@ app.get("/get-searched-listing", async (req, res) => {
       FROM Hotel h
       INNER JOIN Room r ON r.hotel_id = h.hotel_id
       WHERE r.availability_status = TRUE
-        AND ($1::TEXT IS NULL OR h.hotel_location ILIKE $1)
-        AND ($2::TEXT IS NULL OR h.hotel_name ILIKE $2)
-        AND ($3::INT IS NULL OR r.room_capacity >= $3);
     `;
-    const params = [
-      hotel_location ? `%${hotel_location}%` : null,
-      hotel_name ? `%${hotel_name}%` : null,
-      guest_count ? parseInt(guest_count) : null,
-    ];
+
+    const params = [];
+    let index = 1;
+
+    if (hotel_location) {
+      query += ` AND h.hotel_location ILIKE $${index}`;
+      params.push(`%${hotel_location}%`);
+      index++;
+    }
+
+    if (hotel_name) {
+      query += ` AND h.hotel_name ILIKE $${index}`;
+      params.push(`%${hotel_name}%`);
+      index++;
+    }
+
+    if (guest_count) {
+      query += ` AND r.room_capacity >= $${index}`;
+      params.push(parseInt(guest_count));
+      index++;
+    }
+
+    if (minPrice) {
+      query += ` AND r.price >= $${index}`;
+      params.push(parseFloat(minPrice));
+      index++;
+    }
+
+    if (maxPrice) {
+      query += ` AND r.price <= $${index}`;
+      params.push(parseFloat(maxPrice));
+      index++;
+    }
+
+    if (rating) {
+      query += ` AND (SELECT AVG(stars) FROM Review WHERE h.hotel_id = Review.hotel_id) >= $${index}`;
+      params.push(parseFloat(rating));
+      index++;
+    }
+
+    if (roomCategories) {
+      const categories = roomCategories.toLowerCase().split(",");
+      query += ` AND r.room_type = ANY($${index})`;
+      params.push(categories);
+      index++;
+    }
+
+    if (hotelFacilities) {
+      const facilities = hotelFacilities.split(",");
+      query += ` AND h.amenities::TEXT ILIKE ALL($${index})`;
+      params.push(facilities.map((facility) => `%${facility}%`));
+      index++;
+    }
+
+    if (sortedPrice) {
+      query += ` ORDER BY r.price ${sortedPrice === "l_h" ? "ASC" : "DESC"}`;
+    } else if (sortedRating) {
+      query += ` ORDER BY avg_rating ${sortedRating === "r_l_h" ? "ASC" : "DESC"}`;
+    }
+
     const data = await pool.query(query, params);
+
     if (data.rowCount > 0) {
       res.status(200).json({ message: data.rows });
     } else {
       res.status(404).json({ message: "No data available" });
     }
   } catch (err) {
-    console.error("Database query error:", err);
+    console.error("Database query error", err);
     res.status(500).json({ message: "An error occurred while fetching data" });
   }
 });
-
-
-
 
 
 

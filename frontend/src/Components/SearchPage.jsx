@@ -1,9 +1,10 @@
 import React , {useEffect, useState} from 'react'
-import { useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import amenitiesList from './Ammenities';
 
 const SearchPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const queryParameters = new URLSearchParams(location.search)
   const hotel_location = queryParameters.get("hotel_location")
   const hotel_name = queryParameters.get("hotel_name")
@@ -44,9 +45,36 @@ const SearchPage = () => {
     hotelFacilities: [],
   });
 
-  const handleFilter = () => {
-    console.log(filters);
+  const handleFilter = async () => {
+    try {
+      const query = new URLSearchParams({
+        hotel_name,
+        hotel_location,
+        guest_count,
+        minPrice: filters.minPrice,
+        maxPrice: filters.maxPrice,
+        sortedPrice: filters.sortedPrice,
+        rating: filters.rating,
+        sortedRating: filters.sortedRating,
+        roomCategories: filters.roomCategories.join(","),
+        hotelFacilities: filters.hotelFacilities.join(","),
+      }).toString();
+
+      const response = await fetch(`http://localhost:3008/get-searched-listing/?${query}`);
+      if (response.ok) {
+        const data = await response.json();
+        setListingData(data.message);
+        console.log(data.message);
+      } else {
+        setListingData([]);
+        console.log("Error fetching filtered data!");
+      }
+    } catch (err) {
+      setListingData([]);
+      console.error("Error:", err);
+    }
   };
+  
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -185,7 +213,7 @@ const SearchPage = () => {
           <div className="filter_section">
             <h3>Room Categories</h3>
             <div className="filter_categories">
-              {["Standard room", "Deluxe room"].map((room) => (
+              {["Standard", "Deluxe"].map((room) => (
                 <label key={room}>
                   <input
                     type="checkbox"
@@ -194,7 +222,7 @@ const SearchPage = () => {
                     checked={filters.roomCategories.includes(room)}
                     onChange={handleInputChange}
                   />
-                  {room}
+                  {room + " room"}
                 </label>
               ))}
             </div>
@@ -241,8 +269,8 @@ const SearchPage = () => {
                   <small> per night</small>
                 </div>
                 <div class="card-actions">
-                  <button class="view-details">View Details</button>
-                  <button class="book-now">Book Now</button>
+                  <button onClick={()=>(navigate(`../hotel/${card.hotel_id}`))} class="view-details">View Details</button>
+                  <button class="book-now">Add to Favourites</button>
                 </div>
               </div>
             </div>

@@ -707,3 +707,115 @@ input::file-selector-button {
   font-weight:500;
   font-size:15px;
 }
+
+
+.search-card {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap:10px;
+}
+
+.search-card .card {
+  display: flex;
+  flex-direction:row;
+  border:.1px solid #ccc;
+  border-radius: 8px;
+}
+
+.search-card .card .card-image {
+  width:400px;
+  padding: 10px;
+  overflow: hidden;
+} 
+
+.search-card .card .card-image img {
+  object-fit:cover;
+  border-radius:5px;
+  width: 100%;
+  height:100%;
+}
+
+.search-card .card .card-details {
+  flex: 2;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.search-card .card .card-details .hotel-name {
+  font-size: 20px;
+  font-weight:600;
+  margin: 0;
+}
+
+.search-card .card .card-details .hotel-location {
+  font-size: 16px;
+  margin: 0;
+}
+
+.search-card .card .card-details .room-details {
+  font-size:15px;
+  color: #444;
+  margin: 8px 0;
+}
+
+.search-card .card .card-details .amenities {
+  font-size: 16px;
+  margin-bottom:5px;
+}
+.amenity{
+  display:inline-block;
+  margin-right:10px;
+}
+
+.search-card .card .card-details .rating-section .rating {
+  background-color:black;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom:5px !important;
+  font-size: 12px;
+}
+
+.search-card .card .card-details .price-details {
+  font-size:22px;
+  font-weight:600;
+  color: crimson;
+}
+
+.search-card .card .card-details .price-details small {
+  font-weight: normal;
+  color: #666;
+  font-size: 12px;
+}
+
+.search-card .card .card-details .card-actions {
+  display: flex;
+  gap: 8px;
+  justify-content:flex-end;
+}
+
+.search-card .card .card-details .card-actions .view-details {
+  padding: 12px;
+  font-size: 15px;
+  background-color: #fff;
+  border: 1px solid black;
+  font-weight:550;
+  color:black;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-card .card .card-details .card-actions .book-now {
+  padding:12px;
+  font-size: 15px;
+  font-weight:550;
+  background-color:forestgreen;
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}

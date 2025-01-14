@@ -1,6 +1,7 @@
 import React , {useEffect, useState} from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import amenitiesList from './Ammenities';
+import amenitiesIcons from './AmmentiesIcon';
 
 const SearchPage = () => {
   const location = useLocation();
@@ -259,11 +260,26 @@ const SearchPage = () => {
               <div class="card-details">
                 <h3 class="hotel-name">{card.hotel_name}</h3>
                 <p class="hotel-location">{card.hotel_location}</p>
-                <p class="room-details">{card.room_type} • {card.room_capacity} people</p>
-                <p class="amenities">
-                  {JSON.parse(card.amenities).slice(0, 4).join(", ")} + more
+                <p class="room-details">{card.room_type} room • {card.room_capacity} people</p>
+                <p className="amenities">
+                  {JSON.parse(card.amenities)
+                    .slice(0, 5)
+                    .map((amenity, index) => {
+                      const amenityIndex = amenitiesList.indexOf(amenity);
+                      const iconClass = amenitiesIcons[amenityIndex];
+                      return (
+                        <div className="amenity" key={index}>
+                          <i className={`${iconClass}`}></i>
+                          <span>{amenity}</span>
+                        </div>
+                      );
+                    })}
+                  {JSON.parse(card.amenities).length > 5 && (
+                    <span> + {JSON.parse(card.amenities).length - 5} more
+                    </span>
+                  )}
                 </p>
-                <p className="rating">{card.avg_rating ? card.avg_rating : "No rating"}</p>
+                <p className="rating">{card.avg_rating ? card.avg_rating : <>< i className="ri-star-off-line"></i> Not rated yet</>}</p>
                 <div class="price-details">
                   <span class="price">NPR {parseFloat(card.price).toFixed(2)}</span>
                   <small> per night</small>

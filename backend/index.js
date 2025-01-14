@@ -294,6 +294,41 @@ app.get("/get-hotel-location-name",async(req , res)=>{
 
 })
 
+app.get("/get-hotel-listing/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const data = await pool.query(
+      `
+      SELECT 
+        h.hotel_location,
+        h.hotel_name,
+        r.price,
+        Array(
+          SELECT image_url 
+          FROM hotel_image 
+          WHERE hotel_image.hotel_id = h.hotel_id 
+        ) AS hotel_image
+      FROM Hotel h
+      INNER JOIN room r
+      ON r.hotel_id = h.hotel_id
+      WHERE h.hotel_id = $1
+      `,
+      [id]
+    );
+
+    if (data.rowCount > 0) {
+      res.status(200).json({message : data.rows[0] });
+    } else {
+      res.status(404).json({message: "Hotel not found" });
+    }
+  } catch (err) {
+    console.error("Database query error:", err);
+    res.status(500).json({message: "An error occurred" });
+  }
+});
+
+
 app.get("/get-hotel-listing", async (req, res) => {
   try {
     const data = await pool.query(`

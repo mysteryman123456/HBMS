@@ -340,7 +340,7 @@ input::file-selector-button {
 }
  /* home page css */
  .searchbar_container{
-  background: linear-gradient(135.46deg, #d11450, #df293a);
+  background: linear-gradient(90deg, #7224AE 0%, #571788 40.5%, #440C70 83%);
   padding:60px;
   text-align: center;
  }
@@ -480,8 +480,6 @@ input::file-selector-button {
 
 .listing {
   width:250px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
   overflow: hidden;
   background-color: #fff;
   text-align: left;
@@ -492,32 +490,31 @@ input::file-selector-button {
   min-height:160px;
 }
 .h_image img {
+  border-radius:5px;
   object-fit:cover;
 }
 .hotel_name {
+  margin-top:7px;
   font-size: 18px;
   font-weight: bold;
-  margin: 12px 12px 4px;
   color: #333;
 }
 .hotel_location {
   font-size: 14px;
-  margin: 4px 12px;
   color: #777;
 }
 .hotel_price {
   font-size: 16px;
-  font-weight: bold;
-  margin: 8px 12px;
+  font-weight:550;
+  margin-top: 5px;
   color: #e63946;
 }
 
 .hotel_taxes {
   margin-bottom: 5px;
   font-size: 12px;
-  margin: 0 12px 12px;
-  color: #555;
 }
+
 .loading {
   margin-top: 20px;
   width:250px;

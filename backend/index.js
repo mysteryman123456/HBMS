@@ -303,7 +303,12 @@ app.get("/get-hotel-listing/:id", async (req, res) => {
       SELECT 
         h.hotel_location,
         h.hotel_name,
+        h.l_l,
+        h.amenities,
         r.price,
+        r.room_capacity,
+        r.room_type,
+        r.room_number,
         Array(
           SELECT image_url 
           FROM hotel_image 

@@ -117,6 +117,7 @@ app.post("/add-hotel", upload.array("images"), async (req, res) => {
     hotel_name,
     hotel_location,
     l_l,
+    description,
     room_capacity,
     room_type,
     room_number,
@@ -128,9 +129,9 @@ app.post("/add-hotel", upload.array("images"), async (req, res) => {
 
   try {
     const hotelResult = await pool.query(
-      `INSERT INTO Hotel (hotel_id , hotel_name, l_l, hotel_location, amenities ,seller_email) 
-       VALUES ($1, $2, $3, $4 , $5 ,$6) RETURNING hotel_id`,
-      [hotel_id , hotel_name, l_l, hotel_location, amenitiesParsed , seller_email]
+      `INSERT INTO Hotel (hotel_id , hotel_name, l_l, hotel_location, amenities ,seller_email , description) 
+       VALUES ($1, $2, $3, $4 , $5 ,$6 , $7) RETURNING hotel_id`,
+      [hotel_id , hotel_name, l_l, hotel_location, amenitiesParsed , seller_email , description]
     );
 
     const imagePromises = req.files.map((file) =>
@@ -305,6 +306,7 @@ app.get("/get-hotel-listing/:id", async (req, res) => {
         h.hotel_name,
         h.l_l,
         h.amenities,
+        h.description,
         r.price,
         r.room_capacity,
         r.room_type,

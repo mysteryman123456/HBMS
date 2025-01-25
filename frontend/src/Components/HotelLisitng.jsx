@@ -13,6 +13,7 @@ const HoteListing = () => {
     room_type: "standard",
     room_number: "",
     price: "",
+    description:"",
     amenities: [],
     images: []
   });
@@ -107,6 +108,7 @@ const HoteListing = () => {
     formData.append("room_type", hotelDetails.room_type);
     formData.append("room_number", hotelDetails.room_number);
     formData.append("price", hotelDetails.price);
+    formData.append("description", hotelDetails.description);
     formData.append("seller_email", hotelDetails.seller_email);
     formData.append("amenities", JSON.stringify(hotelDetails.amenities));
     
@@ -202,6 +204,7 @@ const HoteListing = () => {
         <div className="lp_form_group">
           <label htmlFor="price">Price per night</label>
           <input
+          placeholder="eg. 1290"
             type="number"
             id="price"
             name="price"
@@ -210,6 +213,21 @@ const HoteListing = () => {
             className="lp_input"
           />
         </div>
+
+        <div className="lp_form_group">
+          <label htmlFor="price">Description</label>
+          <textarea
+            placeholder="eg. Hotel description"
+            type="text"
+            id="description"
+            name="description"
+            value={hotelDetails.description}
+            onChange={handleInputChange}
+            className="lp_input"
+          />
+        </div>
+
+
       </div>
 
         <div className="lp_form_group">

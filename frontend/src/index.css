@@ -1,3 +1,6 @@
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+
 input:-webkit-autofill{
   -webkit-box-shadow: 0 0 0 1000px white inset !important;
 }
@@ -814,5 +817,152 @@ input::file-selector-button {
   border: none;
   color: #fff;
   border-radius: 4px;
+  cursor: pointer;
+}
+.product-page {
+  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.hotel-slider {
+  margin-bottom: 20px;
+}
+
+.hotel-slider-image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.hotel-details {
+  margin-bottom: 20px;
+}
+
+.hotel-name {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.hotel-location {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.hotel-rating {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.hotel-description {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.hotel-amenities ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.hotel-amenities li {
+  margin: 5px 10px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.booking-section {
+  background: #f7f7f7;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.room-type,
+.capacity {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.book-now-button {
+  background-color: #ff4d4d;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.book-now-button:hover {
+  background-color: #ff3333;
+}
+.add-review {
+  border-top:1px solid #eee;
+  padding-top: 20px;
+  margin-top:30px;
+}
+
+.add-review h3 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.add-review .rating {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 15px;
+}
+
+.add-review .rating button {
+  background: none;
+  border: none;
+  font-size:1.5rem;
+  cursor: pointer;
+}
+
+.add-review .rating button.text-yellow-500 {
+  color: #e0aa06; 
+}
+
+.add-review .rating button.text-gray-300 {
+  color: #d3d3d3;
+}
+
+.add-review textarea {
+  width:calc(100% - 20px);
+  padding: 10px;
+  border: .1px solid #ddd;
+  min-height:60px;
+  border-radius: 5px;
+  font-size:14px;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  resize: none;
+  outline: none;
+}
+
+.add-review button[type="submit"] {
+  display: inline-block;
+  background-color:forestgreen;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  margin-top:10px;
+  font-size:14px;
+  font-weight:550;
   cursor: pointer;
 }

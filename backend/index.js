@@ -110,7 +110,6 @@ const storage = new CloudinaryStorage({
 });
 
 const upload = multer({ storage: storage });
-
 app.post("/add-hotel", upload.array("images"), async (req, res) => {
   const {
     seller_email,
@@ -294,6 +293,63 @@ app.get("/get-hotel-location-name",async(req , res)=>{
   }
 
 })
+
+app.post("/add-rating", async (req, res) => {
+  const { review, rating, user_phonenumber, id } = req.body;
+  if (!review || !rating || !user_phonenumber || !id) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+  try {
+    const query = `
+      INSERT INTO Review (hotel_id, user_phone, review, stars) VALUES ($1, $2, $3, $4)`;
+    const values = [id, user_phonenumber, review, rating];
+    const result = await pool.query(query, values);
+    res.status(201).json({message: "Review added successfully"});
+  } catch (error) {
+    console.error(error)
+  }
+});
+
+
+app.get("/get-rating/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const query = `
+      SELECT 
+        user_phone, 
+        review, 
+        stars AS rating
+      FROM Review
+      WHERE hotel_id = $1;
+    `;
+
+    const avgRatingQuery = `
+      SELECT 
+        AVG(stars) AS average_rating
+      FROM Review
+      WHERE hotel_id = $1;
+    `;
+
+    const reviewsResult = await pool.query(query, [id]);
+    const avgRatingResult = await pool.query(avgRatingQuery, [id]);
+    if (reviewsResult.rows.length === 0) {
+      return res.status(404).json({
+        message: "No reviews found",
+      });
+    }
+    const averageRating = avgRatingResult.rows[0]?.average_rating || 0;
+    return res.status(200).json({
+      averageRating: parseFloat(averageRating).toFixed(1),
+      reviews: reviewsResult.rows,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+});
+
 
 app.get("/get-hotel-listing/:id", async (req, res) => {
   const { id } = req.params;
@@ -480,7 +536,6 @@ console.log({
     res.status(500).json({ message: "An error occurred while fetching data" });
   }
 });
-
 
 
 app.listen(PORT, () => {

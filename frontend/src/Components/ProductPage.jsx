@@ -6,24 +6,29 @@ import amenitiesList from "./AmmentiesIcon";
 
 const ProductPage = () => {
   const { id } = useParams();
-  const [hotelData, setHotelData] = useState(null);
+  const [hotelData, setHotelData] = useState([]);
+  const [ratingData, setRatingData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // rating section
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(1);
+  const [user_phonenumber, setUserPhonenumber] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3008/add-rating/${id}`, {
+      const response = await fetch(`http://localhost:3008/add-rating`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ review, rating, id }),
+        body: JSON.stringify({ review, rating, user_phonenumber, id }),
       });
+      const data = await response.json();
       if (response.ok) {
-        const data = await response.json();
-        setHotelData(data.message);
+        fetchRating();
+        window.success(data.message)
+      }else{
+        window.success("Please try again later")
       }
     } catch (err) {
       console.error(err);
@@ -32,7 +37,23 @@ const ProductPage = () => {
       setRating(1);
     }
   };
-  
+
+  const fetchRating = async () => {
+    try {
+      const response = await fetch(`http://localhost:3008/get-rating/${id}`);
+      if (!response.ok) {
+        return;
+      }
+      const data = await response.json();
+      setRatingData(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  useEffect(() => {
+    fetchRating();
+  }, []);
+
 
   useEffect(() => {
     const fetchHotelData = async () => {
@@ -126,8 +147,30 @@ const ProductPage = () => {
             })}
           </ul>
         </div>
-        <div className="add-review">
-      <h3 className="text-lg font-semibold mb-2">Add Your Review</h3>
+        {
+  <>
+    {ratingData?.reviews?.length > 0 && <>
+      <h3 style={{fontWeight:"550",marginTop:"30px",marginBottom:"15px",borderTop:"1px solid #eee",paddingTop:"20px"}}>User Reviews</h3>
+    </>}
+    {ratingData?.reviews?.length > 0 && (
+      <div className="rating-display">
+        {ratingData.reviews.map((item, index) => (
+          <div key={index} className="review-item">
+            <div className="review-info">
+              <p className="review-detail"><i style={{fontSize:"25px",position:'relative',top:'3px'}} className="ri-account-circle-fill"></i> {item.user_phone} <span className="rating-stars">{Array.from({ length: item.rating }).map((_, i) => (
+                  <span key={i} className="star">★</span>
+                ))}</span></p>
+              <p className="review-detail-description">{item.review}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </>
+}
+
+      <div className="add-review">
+      <h3 className="text-lg font-semibold mb-2">Add Rating & Review</h3>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="rating">
           {[1, 2, 3, 4, 5].map((star) => (
@@ -143,18 +186,29 @@ const ProductPage = () => {
             </button>
           ))}
         </div>
+        <label htmlFor="phone">Phonenumber</label>
+        <input
+          id="phone"
+          pattern="9[0-9]{9}"
+          className="user-phonenumber"
+          placeholder="eg. 9861041960"
+          value={user_phonenumber}
+          onChange={(e) => setUserPhonenumber(e.target.value)}
+          required
+        />
 
+        <label htmlFor="review">Review</label>
         <textarea
-          className="w-full p-2 border border-gray-300 rounded"
+        id="review"
+        maxLength={200}
+        minLength={10}
           placeholder="Write your review here..."
           value={review}
           onChange={(e) => setReview(e.target.value)}
           required
         />
-
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
           Submit Review
         </button>

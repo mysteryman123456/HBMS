@@ -917,6 +917,7 @@ input::file-selector-button {
 
 .add-review h3 {
   font-size: 20px;
+  font-weight:600;
   color: #333;
   margin-bottom: 10px;
 }
@@ -941,28 +942,67 @@ input::file-selector-button {
 .add-review .rating button.text-gray-300 {
   color: #d3d3d3;
 }
-
-.add-review textarea {
+.add-review textarea,.user-phonenumber{
   width:calc(100% - 20px);
   padding: 10px;
-  border: .1px solid #ddd;
   min-height:60px;
   border-radius: 5px;
+  background-color:rgb(248, 248, 248);
+  border:0;
   font-size:14px;
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
   resize: none;
   outline: none;
+  margin-top:5px;
 }
-
 .add-review button[type="submit"] {
   display: inline-block;
   background-color:forestgreen;
   color: white;
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius:3px;
   margin-top:10px;
   font-size:14px;
   font-weight:550;
   cursor: pointer;
+}
+.user-phonenumber{
+  padding: 15px;
+  width:calc(100% - 30px);
+  margin-bottom: 10px;
+  min-height: auto;
+}
+.add-review label{
+  color:#303030;
+  font-weight:500;
+  font-size:15px;
+}
+.rating-display {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.review-item {
+  padding: 1rem;
+  border: .1px solid #ddd;
+  border-radius: 0.5rem;
+  background-color:rgb(252, 252, 252);
+
+}
+
+.review-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.review-detail {
+  font-size: 1rem;
+  color: #333;
+}
+
+.rating-stars {
+  color: #e0aa06; /* Star color */
 }

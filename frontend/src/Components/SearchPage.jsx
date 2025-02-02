@@ -12,29 +12,19 @@ const SearchPage = () => {
   const guest_count = queryParameters.get("guest_count")
   const[listingData , setListingData] = useState([]);
 
-
-
   const addToFav = (hotel_id, hotel_name, price, hotel_image) => {
     const favHotels = JSON.parse(localStorage.getItem("favoriteHotels")) || [];
-  
-    // Check if the hotel is already in favorites
     const isAlreadyFav = favHotels.some((hotel) => hotel.hotel_id === hotel_id);
-  
     if (!isAlreadyFav) {
       const newFavHotel = { hotel_id, hotel_name, price, hotel_image };
       favHotels.push(newFavHotel);
       localStorage.setItem("favoriteHotels", JSON.stringify(favHotels));
-      
-      // Dispatch an event to update Navbar count
       window.dispatchEvent(new Event("storage"));
-      
-      console.log("Added to favorites:", newFavHotel);
+      window.success("Added Successfully !")
     } else {
-      console.log("Hotel already in favorites.");
+      window.failure("Already added !");
     }
   };
-
-  
 
   useEffect(() => {
     const fetchData = async () => {

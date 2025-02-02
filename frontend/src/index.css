@@ -368,7 +368,6 @@ input::file-selector-button {
  }
  .searchbar{
   position: relative;
-  z-index: 99999;
   justify-content: center;
   margin-top: 20px;
   display: flex;
@@ -1005,4 +1004,77 @@ input::file-selector-button {
 
 .rating-stars {
   color: #e0aa06; /* Star color */
+}
+.fav-list{
+  cursor:default;
+  position: relative;
+}
+.favorites-list {
+  position: absolute;
+  top:100%;
+  left: 0;
+  z-index:9999999999999999999999999999999999999999;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  width: 250px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Favourite Card */
+.favorite-card {
+  display: flex;
+  align-items: center;
+  z-index:99999999999999;
+  position: relative;
+  gap: 10px;
+  padding: 5px;
+  overflow: hidden;
+  border-bottom: 1px solid #eee;
+}
+
+.favorite-card h4 {
+  font-weight:550;
+}
+
+.favorite-card .price{
+  position: relative;
+  color:dimgray;
+  top:5px;
+  font-weight:500;
+
+  font-size:12px;
+}
+.favorite-card:last-child {
+  border-bottom: none;
+}
+
+.favorite-card img {
+  width:80px;
+  height:50px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.favorite-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.view-details {
+  font-size: 12px;
+  color:black;
+  text-decoration: none;
+}
+.favorite-card .remove-btn{
+  position: absolute;
+  color:crimson;
+  background-color:transparent;
+  border:0;
+  bottom:0;
+  right: 0;
 }

@@ -1,6 +1,6 @@
 import { use, useEffect, useState } from "react";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , Link } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -198,7 +198,7 @@ const Home = () => {
         <div className="listings">
           {
             listings.map((listing , index)=>(
-              <div className="listing" key={index}>
+              <Link to={"hotel/" + listing.hotel_id}><div className="listing" key={index}>
                 <div className="h_image">
                   <img width="100%" height={160} src={listing.hotel_image} />
                 </div>
@@ -206,7 +206,7 @@ const Home = () => {
                 <p className="hotel_location">{listing.hotel_location}</p>
                 <p className="hotel_price">NPR {listing.price}</p>
                 <div className="hotel_taxes">+ NPR 0 taxes</div>
-              </div>
+              </div></Link>
             ))
           }
         </div>

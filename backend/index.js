@@ -396,6 +396,7 @@ app.get("/get-hotel-listing", async (req, res) => {
   try {
     const data = await pool.query(`
       SELECT 
+        h.hotel_id,
         h.hotel_location,
         h.hotel_name,
         r.price,

@@ -12,8 +12,6 @@ import SearchPage from "./Components/SearchPage"
 import NotFound from "./Components/NotFound"
 import EditListing from './Components/EditListing';
 import {SessionProvider} from "./Context/SessionContext"
-import Favourite from './Components/Favourite';
-
 
 
 function App() {
@@ -35,8 +33,6 @@ function App() {
             </Route> 
             <Route path="/search" element={<SearchPage />} />
             <Route path="/hotel/:id" element={<ProductPage />} />
-            <Route path="/favourite" element={<Favourite />} />
-
           </Routes>
         <Footer/>
     </Router>

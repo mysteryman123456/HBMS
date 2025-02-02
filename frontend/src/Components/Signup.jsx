@@ -95,3 +95,37 @@ const Signup = () => {
 };
 
 export default Signup;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//   // Function to add a hotel to favorites (localStorage)
+//   const addToFav = (hotel_id, hotel_name, price, hotel_image) => {
+//     const favHotels = JSON.parse(localStorage.getItem("favoriteHotels")) || [];
+
+//     // Check if the hotel is already in favorites
+//     const isAlreadyFav = favHotels.some((hotel) => hotel.hotel_id === hotel_id);
+
+//     if (!isAlreadyFav) {
+//       const newFavHotel = { hotel_id, hotel_name, price, hotel_image };
+//       favHotels.push(newFavHotel);
+//       localStorage.setItem("favoriteHotels", JSON.stringify(favHotels));
+//       console.log("Added to favorites:", newFavHotel);
+//     } else {
+//       console.log("Hotel already in favorites.");
+//     }
+//   };
+
+
+
+  // <button onClick={() =>addToFav(card.hotel_id,card.hotel_name,card.price,card.hotel_image)}className="book-now">Add to Favourites</button>

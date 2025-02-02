@@ -12,6 +12,30 @@ const SearchPage = () => {
   const guest_count = queryParameters.get("guest_count")
   const[listingData , setListingData] = useState([]);
 
+
+
+  const addToFav = (hotel_id, hotel_name, price, hotel_image) => {
+    const favHotels = JSON.parse(localStorage.getItem("favoriteHotels")) || [];
+  
+    // Check if the hotel is already in favorites
+    const isAlreadyFav = favHotels.some((hotel) => hotel.hotel_id === hotel_id);
+  
+    if (!isAlreadyFav) {
+      const newFavHotel = { hotel_id, hotel_name, price, hotel_image };
+      favHotels.push(newFavHotel);
+      localStorage.setItem("favoriteHotels", JSON.stringify(favHotels));
+      
+      // Dispatch an event to update Navbar count
+      window.dispatchEvent(new Event("storage"));
+      
+      console.log("Added to favorites:", newFavHotel);
+    } else {
+      console.log("Hotel already in favorites.");
+    }
+  };
+
+  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -98,6 +122,10 @@ const SearchPage = () => {
         [name]: value,
       }));
     }
+
+
+
+   
   };
 
   return (
@@ -286,8 +314,10 @@ const SearchPage = () => {
                 </div>
                 <div class="card-actions">
                   <button onClick={()=>(navigate(`../hotel/${card.hotel_id}`))} class="view-details">View Details</button>
-                  <button class="book-now">Add to Favourites</button>
+                  <button onClick={() =>addToFav(card.hotel_id,card.hotel_name,card.price,card.hotel_image)}className="book-now">Add to Favourites</button>
+                  {/* <button onClick={()=>(addToFav(card.hotel_id,card.hotel_name,card.price,card.hotel_image))} class="book-now">Add to Favourites</button>                */}
                 </div>
+                
               </div>
             </div>
           ))

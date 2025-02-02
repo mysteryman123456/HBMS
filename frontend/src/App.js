@@ -12,6 +12,9 @@ import SearchPage from "./Components/SearchPage"
 import NotFound from "./Components/NotFound"
 import EditListing from './Components/EditListing';
 import {SessionProvider} from "./Context/SessionContext"
+import Favourite from './Components/Favourite';
+
+
 
 function App() {
   return (
@@ -25,13 +28,15 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/user-dashboard" element={<UserDashboard />} />
             <Route path="/hotel-admin-dashboard/" element={<HotelAdminDashboard />}>
-                <Route path="add-listing" element={<HotelListing />} />
-                <Route path="edit-listing" element={<EditListing />} />
-                <Route index element={<HotelListing />} />
-                <Route path="*" element={<NotFound />} />
+            <Route path="add-listing" element={<HotelListing />} />
+            <Route path="edit-listing" element={<EditListing />} />
+            <Route index element={<HotelListing />} />
+            <Route path="*" element={<NotFound />} />
             </Route> 
             <Route path="/search" element={<SearchPage />} />
             <Route path="/hotel/:id" element={<ProductPage />} />
+            <Route path="/favourite" element={<Favourite />} />
+
           </Routes>
         <Footer/>
     </Router>

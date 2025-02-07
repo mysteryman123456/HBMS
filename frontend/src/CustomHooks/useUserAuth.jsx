@@ -2,7 +2,7 @@ import {useEffect} from 'react'
 import { jwtDecode } from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
 
-const useAuth = () => {
+const useUserAuth = () => {
   const navigate = useNavigate();
   useEffect(()=>{
       const token = localStorage.getItem("token");
@@ -13,7 +13,7 @@ const useAuth = () => {
       }
       try{
         const decodedData = jwtDecode(token);
-        if(decodedData.role !== "hotel_admin"){
+        if(decodedData.role !== "user"){
           window.failure("Your are not authorized!")
           navigate("/")
           return;
@@ -28,4 +28,4 @@ const useAuth = () => {
   },[navigate])
 };
 
-export default useAuth;
+export default useUserAuth;

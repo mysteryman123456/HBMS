@@ -13,11 +13,8 @@ const Footer = () => {
         </p>
         <div className="menu">
           <Link to="." className="menuItem">Home</Link>
-          <Link to="favourites" className="menuItem">My Favourites</Link>
           <Link to="/login" className="menuItem">Login</Link>
           <Link to="/signup" className="menuItem">Signup</Link>
-          <Link to="/user-dashboard" className="menuItem">User Dashboard</Link>
-          <Link to="/hotel-admin-dashboard" className="menuItem">List Hotel</Link>
         </div>
         <p className="credit">
           Designed By <a className="link">Team Nuby</a>

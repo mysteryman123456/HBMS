@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../Assets/NUBY.png";
-
+import { useSession } from "../Context/SessionContext";
 const Navbar = () => {
   const [favCount, setFavCount] = useState(0);
   const [favorites, setFavorites] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
-
+  const { sessionData } = useSession();
+  const [role, setRole] = useState("");
   useEffect(() => {
     updateFavorites();
     window.addEventListener("storage", updateFavorites);
@@ -15,6 +16,13 @@ const Navbar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (sessionData?.role) {
+      setRole(sessionData?.role);
+    }
+    console.log(sessionData?.role);
+  }, [sessionData]);
+
   const updateFavorites = () => {
     const favHotels = JSON.parse(localStorage.getItem("favoriteHotels")) || [];
     setFavorites(favHotels);
@@ -22,7 +30,9 @@ const Navbar = () => {
   };
 
   const removeFavorite = (hotelId) => {
-    const updatedFavorites = favorites.filter((hotel) => hotel.hotel_id !== hotelId);
+    const updatedFavorites = favorites.filter(
+      (hotel) => hotel.hotel_id !== hotelId
+    );
     setFavorites(updatedFavorites);
     setFavCount(updatedFavorites.length);
     localStorage.setItem("favoriteHotels", JSON.stringify(updatedFavorites));
@@ -32,7 +42,13 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="logo">
         <Link to="/">
-          <img draggable={false} height={40} width={100} src={logo} alt="nuby" />
+          <img
+            draggable={false}
+            height={40}
+            width={100}
+            src={logo}
+            alt="nuby"
+          />
         </Link>
       </div>
 
@@ -57,10 +73,16 @@ const Navbar = () => {
                   <div className="favorite-details">
                     <h4>{hotel.hotel_name}</h4>
                     <small className="price">{hotel.price} NPR</small>
-                    <Link to={`/hotel/${hotel.hotel_id}`} className="view-details">
+                    <Link
+                      to={`/hotel/${hotel.hotel_id}`}
+                      className="view-details"
+                    >
                       View Details
                     </Link>
-                    <button className="remove-btn" onClick={() => removeFavorite(hotel.hotel_id)}>
+                    <button
+                      className="remove-btn"
+                      onClick={() => removeFavorite(hotel.hotel_id)}
+                    >
                       <i className="ri-delete-back-2-fill"></i>
                     </button>
                   </div>
@@ -70,12 +92,19 @@ const Navbar = () => {
           )}
         </div>
 
-        <div className="list">
-          <i className="ri-add-box-fill"></i>
-          <div>
+        {role === "hotel_admin" ? (
+          <>
+          <div className="list">
+            <i className="ri-add-box-fill"></i>
             <Link to="/hotel-admin-dashboard">List your Hotel</Link>
           </div>
-        </div>
+          </>
+        ) : role === "user" ? (
+          <div className="list">
+            <i className="ri-dashboard-fill"></i>
+            <Link to="/user/user-dashboard">My dashboard</Link>
+          </div>
+        ) : null}
 
         <div className="login-signup">
           <i className="ri-account-circle-fill"></i>

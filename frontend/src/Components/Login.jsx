@@ -1,9 +1,9 @@
 import React from 'react'
-import { Link , useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useState } from 'react'
 
 const Login = () => {
-  const navigate = useNavigate();
+
   const[eye , setEye] = useState(false);
   const[loading , setLoading] = useState(false);
   const[loginData , setLoginData] = useState({
@@ -32,7 +32,7 @@ const Login = () => {
       if (response.ok && response.status === 200) {
         window.success(data.message);
         localStorage.setItem("token",data.token)
-        navigate("/");
+        window.location.href = "./"
       } else {
         window.failure(data.message);
       }

@@ -11,7 +11,7 @@ const Signup = () => {
     password : "",
     confirm_password : "",
     username : "",
-    role : "",
+    role : "user",
     phone : "",
   });
 

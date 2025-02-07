@@ -2,6 +2,8 @@ import React , {useEffect, useState} from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import amenitiesList from './Ammenities';
 import amenitiesIcons from './AmmentiesIcon';
+import LoaderPage from "./LoaderPage"
+import NotFound from './NotFound';
 
 const SearchPage = () => {
   const location = useLocation();
@@ -11,7 +13,7 @@ const SearchPage = () => {
   const hotel_name = queryParameters.get("hotel_name")
   const guest_count = queryParameters.get("guest_count")
   const[listingData , setListingData] = useState([]);
-
+  const[loading , setLoading] = useState(true);
   const addToFav = (hotel_id, hotel_name, price, hotel_image) => {
     const favHotels = JSON.parse(localStorage.getItem("favoriteHotels")) || [];
     const isAlreadyFav = favHotels.some((hotel) => hotel.hotel_id === hotel_id);
@@ -38,12 +40,14 @@ const SearchPage = () => {
         if (response.ok) {
           const data = await response.json();
           setListingData(data.message);
-          console.log(data.message);
         } else {
           console.log("Error fetching!");
         }
       } catch (err) {
         console.error("Error:", err);
+      }
+      finally{
+        setLoading(false)
       }
     };
   
@@ -79,7 +83,6 @@ const SearchPage = () => {
       if (response.ok) {
         const data = await response.json();
         setListingData(data.message);
-        console.log(data.message);
       } else {
         setListingData([]);
         console.log("Error fetching filtered data!");
@@ -112,11 +115,12 @@ const SearchPage = () => {
         [name]: value,
       }));
     }
-
-
-
    
   };
+
+if (loading) return(<>
+    <LoaderPage/>
+</>)
 
   return (
     <div className='search-page'>
@@ -305,14 +309,15 @@ const SearchPage = () => {
                 <div class="card-actions">
                   <button onClick={()=>(navigate(`../hotel/${card.hotel_id}`))} class="view-details">View Details</button>
                   <button onClick={() =>addToFav(card.hotel_id,card.hotel_name,card.price,card.hotel_image)}className="book-now">Add to Favourites</button>
-                  {/* <button onClick={()=>(addToFav(card.hotel_id,card.hotel_name,card.price,card.hotel_image))} class="book-now">Add to Favourites</button>                */}
                 </div>
                 
               </div>
             </div>
           ))
         ) : (
-          <p>No listings available</p>
+          <>
+          <NotFound/>
+          </>
         )}
       </div>
     </div>

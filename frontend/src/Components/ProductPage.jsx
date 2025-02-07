@@ -1,19 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import amenitiesIcons from "./Ammenities";
 import amenitiesList from "./AmmentiesIcon";
-
+import { SessionContext, useSession } from "../Context/SessionContext";
+import HotelMap from "./HotelMap";
+import HotelBookingCard from "./HotelBookingCard";
+import LoaderPage from "./LoaderPage"
 const ProductPage = () => {
+  const navigate = useNavigate();
+  const { sessionData } = useSession(SessionContext);
   const { id } = useParams();
   const [hotelData, setHotelData] = useState([]);
   const [ratingData, setRatingData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // rating section
+
+  useEffect(() => {
+    if (!sessionData) {
+      navigate("../");
+      window.failure("Please login first!");
+    }
+  }, [sessionData]);
+  // Un-comment above lines for allowing users to visit product page only after login
+
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(1);
-  const [user_phonenumber, setUserPhonenumber] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,14 +33,19 @@ const ProductPage = () => {
       const response = await fetch(`http://localhost:3008/add-rating`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ review, rating, user_phonenumber, id }),
+        body: JSON.stringify({
+          review,
+          rating,
+          user_phonenumber: sessionData?.phonenumber,
+          id,
+        }),
       });
       const data = await response.json();
       if (response.ok) {
         fetchRating();
-        window.success(data.message)
-      }else{
-        window.success("Please try again later")
+        window.success(data.message);
+      } else {
+        window.success("Please try again later");
       }
     } catch (err) {
       console.error(err);
@@ -54,7 +71,6 @@ const ProductPage = () => {
     fetchRating();
   }, []);
 
-
   useEffect(() => {
     const fetchHotelData = async () => {
       try {
@@ -77,21 +93,23 @@ const ProductPage = () => {
   }, [id]);
 
   if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (!hotelData) {
-    return <p>No hotel data found.</p>;
+    return <>
+    <LoaderPage/>
+    </>;
   }
 
   const {
+    hotel_id,
+    seller_email,
     hotel_name,
     hotel_location,
     amenities,
     description,
     price,
     room_capacity,
+    room_number,
     room_type,
+    room_id,
     hotel_image,
   } = hotelData;
 
@@ -126,7 +144,9 @@ const ProductPage = () => {
       <div className="hotel-details">
         <h1 className="hotel-name">{hotel_name}</h1>
         <p className="hotel-location">{hotel_location}</p>
-        <p className="hotel-rating">⭐ 4.5</p>
+        <p className="hotel-rating">
+          {ratingData?.averageRating + " star rating" || "No rating provided"}
+        </p>
         <p className="hotel-description">
           {description || "No description provided."}
         </p>
@@ -147,73 +167,103 @@ const ProductPage = () => {
             })}
           </ul>
         </div>
+        <br />
+
+        {/* cancellation policy */}
+        <h2>Cancellation policy</h2>
+        <p>Write here about hotels cancelation policy...  hard coded, same for all</p>
+
+        {/* hotel booking details */}
+        <HotelBookingCard {...hotelData} sessionData={sessionData}/>
+
+        {/* display hotel map only if available to see */}
         {
-  <>
-    {ratingData?.reviews?.length > 0 && <>
-      <h3 style={{fontWeight:"550",marginTop:"30px",marginBottom:"15px",borderTop:"1px solid #eee",paddingTop:"20px"}}>User Reviews</h3>
-    </>}
-    {ratingData?.reviews?.length > 0 && (
-      <div className="rating-display">
-        {ratingData.reviews.map((item, index) => (
-          <div key={index} className="review-item">
-            <div className="review-info">
-              <p className="review-detail"><i style={{fontSize:"25px",position:'relative',top:'3px'}} className="ri-account-circle-fill"></i> {item.user_phone} <span className="rating-stars">{Array.from({ length: item.rating }).map((_, i) => (
-                  <span key={i} className="star">★</span>
-                ))}</span></p>
-              <p className="review-detail-description">{item.review}</p>
+          hotelData?.l_l && <>
+          <h2>Hotel Map</h2>
+        <HotelMap location={hotelData?.l_l} />
+        </>
+        }
+
+
+        {
+          <>
+            {ratingData?.reviews?.length > 0 && (
+              <>
+                <h3
+                  style={{
+                    fontWeight: "550",
+                    marginTop: "30px",
+                    marginBottom: "15px",
+                    borderTop: "1px solid #eee",
+                    paddingTop: "20px",
+                  }}
+                >
+                  User Reviews
+                </h3>
+              </>
+            )}
+            {ratingData?.reviews?.length > 0 && (
+              <div className="rating-display">
+                {ratingData.reviews.map((item, index) => (
+                  <div key={index} className="review-item">
+                    <div className="review-info">
+                      <p className="review-detail">
+                        <i
+                          style={{
+                            fontSize: "25px",
+                            position: "relative",
+                            top: "3px",
+                          }}
+                          className="ri-account-circle-fill"
+                        ></i>{" "}
+                        {item.user_phone}{" "}
+                        <span className="rating-stars">
+                          {Array.from({ length: item.rating }).map((_, i) => (
+                            <span key={i} className="star">
+                              ★
+                            </span>
+                          ))}
+                        </span>
+                      </p>
+                      <p className="review-detail-description">{item.review}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        }
+
+        <div className="add-review">
+          <h3 className="text-lg font-semibold mb-2">Add Rating & Review</h3>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="rating">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  type="button"
+                  key={star}
+                  className={`text-2xl ${
+                    rating >= star ? "text-yellow-500" : "text-gray-300"
+                  }`}
+                  onClick={() => setRating(star)}
+                >
+                  ★
+                </button>
+              ))}
             </div>
-          </div>
-        ))}
-      </div>
-    )}
-  </>
-}
-
-      <div className="add-review">
-      <h3 className="text-lg font-semibold mb-2">Add Rating & Review</h3>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="rating">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <button
-              type="button"
-              key={star}
-              className={`text-2xl ${
-                rating >= star ? "text-yellow-500" : "text-gray-300"
-              }`}
-              onClick={() => setRating(star)}
-            >
-              ★
-            </button>
-          ))}
+            <label htmlFor="review">Review</label>
+            <textarea
+              id="review"
+              maxLength={200}
+              minLength={10}
+              placeholder="Write your review here..."
+              value={review}
+              onChange={(e) => setReview(e.target.value)}
+              required
+            />
+            <button type="submit">Submit Review</button>
+          </form>
         </div>
-        <label htmlFor="phone">Phonenumber</label>
-        <input
-          id="phone"
-          pattern="9[0-9]{9}"
-          className="user-phonenumber"
-          placeholder="eg. 9861041960"
-          value={user_phonenumber}
-          onChange={(e) => setUserPhonenumber(e.target.value)}
-          required
-        />
-
-        <label htmlFor="review">Review</label>
-        <textarea
-        id="review"
-        maxLength={200}
-        minLength={10}
-          placeholder="Write your review here..."
-          value={review}
-          onChange={(e) => setReview(e.target.value)}
-          required
-        />
-        <button
-          type="submit"
-        >
-          Submit Review
-        </button>
-      </form>
-    </div>
       </div>
     </div>
   );

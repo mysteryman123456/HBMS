@@ -11,8 +11,10 @@ import ProductPage from "./Components/ProductPage"
 import SearchPage from "./Components/SearchPage"
 import NotFound from "./Components/NotFound"
 import EditListing from './Components/EditListing';
+import AdminReservations from './Components/AdminReservations'
 import {SessionProvider} from "./Context/SessionContext"
-
+import UserProfile from './Components/UserProfile';
+import UserReservation from './Components/UserReservation';
 
 function App() {
   return (
@@ -24,12 +26,18 @@ function App() {
             <Route path="*" element={<NotFound />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/user-dashboard" element={<UserDashboard />} />
+            <Route path="/user/user-dashboard" element={<UserDashboard />}>
+              <Route index element={<UserProfile />} />
+              <Route path='profile' element={<UserProfile/>}/>
+              <Route path='reservations' element={<UserReservation/>}/>
+              <Route path="*" element={<NotFound />} />
+            </Route>
             <Route path="/hotel-admin-dashboard/" element={<HotelAdminDashboard />}>
-            <Route path="add-listing" element={<HotelListing />} />
-            <Route path="edit-listing" element={<EditListing />} />
-            <Route index element={<HotelListing />} />
-            <Route path="*" element={<NotFound />} />
+              <Route path="add-listing" element={<HotelListing />} />
+              <Route path="edit-listing" element={<EditListing />} />
+              <Route path="see-reservations" element={<AdminReservations />} />
+              <Route index element={<HotelListing />} />
+              <Route path="*" element={<NotFound />} />
             </Route> 
             <Route path="/search" element={<SearchPage />} />
             <Route path="/hotel/:id" element={<ProductPage />} />

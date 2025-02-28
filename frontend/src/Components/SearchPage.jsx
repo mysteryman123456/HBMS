@@ -1,4 +1,4 @@
-import React , {useEffect, useState} from 'react'
+import React , {useEffect, useRef, useState} from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import amenitiesList from './Ammenities';
 import amenitiesIcons from './AmmentiesIcon';
@@ -27,6 +27,28 @@ const SearchPage = () => {
       window.failure("Already added !");
     }
   };
+
+  const searchInputRef = useRef(null)
+
+  useEffect(() => {
+    const searchInput = searchInputRef.current;
+    const containers = document.querySelectorAll(".filter_section");
+    if (!searchInput) return; 
+    const filterContainers = () => {
+      const searchText = searchInput.value.toLowerCase();
+      containers.forEach((container) => {
+        container.style.display = container.textContent
+          .toLowerCase()
+          .includes(searchText)
+          ? "block"
+          : "none";
+      });
+    };
+    searchInput.addEventListener("input", filterContainers);
+    return () => {
+      searchInput.removeEventListener("input", filterContainers);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -148,12 +170,12 @@ if (loading) return(<>
 
           <div className="filter_search">
             <input
+              id='filterSearch'
+              ref={searchInputRef}
               type="text"
               className="filter_search_input"
               placeholder="Search here..."
               name="search"
-              value={filters.search}
-              onChange={handleInputChange}
             />
           </div>
 
@@ -272,17 +294,17 @@ if (loading) return(<>
             Filter results
           </button>
         </div>
-        <div class="search-card">
+        <div className="search-card">
         {listingData.length > 0 ? (
           listingData.map((card, index) => (
             <div key={index} className="card">
-              <div class="card-image">
+              <div className="card-image">
                 <img src={card.hotel_image} alt={card.hotel_name} />
               </div>
-              <div class="card-details">
-                <h3 class="hotel-name">{card.hotel_name}</h3>
-                <p class="hotel-location">{card.hotel_location}</p>
-                <p class="room-details">{card.room_type} room • {card.room_capacity} people</p>
+              <div className="card-details">
+                <h3 className="hotel-name">{card.hotel_name}</h3>
+                <p className="hotel-location">{card.hotel_location}</p>
+                <p className="room-details">{card.room_type} room • {card.room_capacity} people</p>
                 <p className="amenities">
                   {JSON.parse(card.amenities)
                     .slice(0, 5)
@@ -301,13 +323,13 @@ if (loading) return(<>
                     </span>
                   )}
                 </p>
-                <p className="rating">{card.avg_rating ? card.avg_rating : <>< i className="ri-star-off-line"></i> Not rated yet</>}</p>
-                <div class="price-details">
-                  <span class="price">NPR {parseFloat(card.price).toFixed(2)}</span>
+                <p className="rating">{card.avg_rating ? Number(card.avg_rating).toFixed(1) + " avg rating" : <>< i className="ri-star-off-line"></i> Not rated yet</>}</p>
+                <div className="price-details">
+                  <span className="price">NPR {Number(card.price).toFixed(2)}</span>
                   <small> per night</small>
                 </div>
-                <div class="card-actions">
-                  <button onClick={()=>(navigate(`../hotel/${card.hotel_id}`))} class="view-details">View Details</button>
+                <div className="card-actions">
+                  <button onClick={()=>(navigate(`../hotel/${card.hotel_id}`))} className="view-details">View Details</button>
                   <button onClick={() =>addToFav(card.hotel_id,card.hotel_name,card.price,card.hotel_image)}className="book-now">Add to Favourites</button>
                 </div>
                 

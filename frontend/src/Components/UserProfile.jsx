@@ -30,7 +30,7 @@ const UserProfile = () => {
         setLoading(true);
         await axios.delete(`http://localhost:3008/user-delete-account/${sessionData?.email}`);
         window.success("Account deleted !");
-        window.location.href = "../../";
+        window.location.href = "../../logout";
       } catch (error) {
         window.failure("Failed to delete account");
       } finally {

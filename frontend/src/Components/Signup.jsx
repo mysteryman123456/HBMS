@@ -31,6 +31,9 @@ const Signup = () => {
       return
     }
 
+    if(!/^9\d{9}$/.test(signupData.phone)) return window.failure("Invalid phonenumber!")
+
+
     setLoading(true);
     try {
       const response = await fetch("http://localhost:3008/signup", { 

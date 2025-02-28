@@ -112,6 +112,13 @@ const Navbar = () => {
             <Link to="/login">Login</Link> / <Link to="/signup"> Signup</Link>
           </div>
         </div>
+
+        <div className="login-signup">
+          <i className="ri-logout-box-r-fill"></i>
+          <div style={{ color: "darkgrey" }}>
+            <Link to="/logout">Logout</Link>
+          </div>
+        </div>
       </div>
     </nav>
   );

@@ -4,6 +4,7 @@ import Navbar from "./Components/Navbar"
 import Footer from "./Components/Footer"
 import Signup from "./Components/Signup"
 import Login from "./Components/Login"
+import Logout from "./Components/Logout"
 import HotelAdminDashboard from "./Components/HotelAdminDashboard"
 import HotelListing from "./Components/HotelLisitng"
 import UserDashboard from "./Components/UserDashboard"
@@ -26,6 +27,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
             <Route path="/user/user-dashboard" element={<UserDashboard />}>
               <Route index element={<UserProfile />} />
               <Route path='profile' element={<UserProfile/>}/>

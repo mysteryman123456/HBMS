@@ -1,4 +1,4 @@
-import React , {useEffect, useRef, useState} from 'react'
+import React , {useEffect, useState} from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import amenitiesList from './Ammenities';
 import amenitiesIcons from './AmmentiesIcon';
@@ -6,14 +6,18 @@ import LoaderPage from "./LoaderPage"
 import NotFound from './NotFound';
 
 const SearchPage = () => {
+  const[filterSearch , setFilterSearch] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
   const queryParameters = new URLSearchParams(location.search)
+
   const hotel_location = queryParameters.get("hotel_location")
   const hotel_name = queryParameters.get("hotel_name")
   const guest_count = queryParameters.get("guest_count")
+
   const[listingData , setListingData] = useState([]);
   const[loading , setLoading] = useState(true);
+
   const addToFav = (hotel_id, hotel_name, price, hotel_image) => {
     const favHotels = JSON.parse(localStorage.getItem("favoriteHotels")) || [];
     const isAlreadyFav = favHotels.some((hotel) => hotel.hotel_id === hotel_id);
@@ -28,14 +32,11 @@ const SearchPage = () => {
     }
   };
 
-  const searchInputRef = useRef(null)
-
   useEffect(() => {
-    const searchInput = searchInputRef.current;
     const containers = document.querySelectorAll(".filter_section");
-    if (!searchInput) return; 
+
     const filterContainers = () => {
-      const searchText = searchInput.value.toLowerCase();
+      const searchText = filterSearch.toLowerCase();
       containers.forEach((container) => {
         container.style.display = container.textContent
           .toLowerCase()
@@ -44,11 +45,8 @@ const SearchPage = () => {
           : "none";
       });
     };
-    searchInput.addEventListener("input", filterContainers);
-    return () => {
-      searchInput.removeEventListener("input", filterContainers);
-    };
-  }, []);
+    filterContainers()
+  }, [filterSearch]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -170,8 +168,8 @@ if (loading) return(<>
 
           <div className="filter_search">
             <input
-              id='filterSearch'
-              ref={searchInputRef}
+              value={filterSearch}
+              onChange={(e)=>setFilterSearch(e.target.value)}
               type="text"
               className="filter_search_input"
               placeholder="Search here..."

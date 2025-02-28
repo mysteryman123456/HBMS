@@ -521,7 +521,7 @@ app.post("/add-reservations", async (req, res) => {
     await pool.query(reservationQuery, reservationValues);
     await pool.query("COMMIT");
 
-    await transporter.sendMail(mailOptions);
+    transporter.sendMail(mailOptions);
 
     res.status(201).json({ message: "Reservation successful!" });
   } catch (error) {
@@ -908,7 +908,7 @@ app.delete("/admin-delete-reservation/:reservation_id", async (req, res) => {
     `;
 
     // Sending email to user
-    await transporter.sendMail({
+    transporter.sendMail({
       from: "", 
       to: user_email,
       subject: "Reservation Cancellation Notice",
@@ -947,7 +947,7 @@ app.delete("/user-delete-reservation/:reservation_id", async (req, res) => {
       <p>Please update your availability accordingly.</p>
     `;
 
-    await transporter.sendMail({
+    transporter.sendMail({
       from: "", 
       to: seller_email,
       subject: "Reservation Deletion",

@@ -40,7 +40,7 @@ const EditCard = ({ editData }) => {
     }
 
     try{
-        const response = await fetch("http://localhost:3008/update-listing",{
+        const response = await fetch("http://localhost:3008/hotels/update-listing",{
             method:"PUT",
             headers : {
                 "Content-Type" : "application/json"
@@ -66,7 +66,7 @@ const EditCard = ({ editData }) => {
       return
     }
     try{
-      const response = await fetch("http://localhost:3008/delete-listing",{
+      const response = await fetch("http://localhost:3008/hotels/delete-listing",{
           method:"DELETE",
           headers : {
               "Content-Type" : "application/json"

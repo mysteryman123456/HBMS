@@ -28,7 +28,7 @@ const UserReservation = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:3008/user-reservations/${userPhone}`
+        `http://localhost:3008/users/user-reservations/${userPhone}`
       );
       setReservations(response.data);
     } catch (error) {

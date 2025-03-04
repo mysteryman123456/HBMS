@@ -52,7 +52,7 @@ const SearchPage = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3008/get-searched-listing/?hotel_name=${hotel_name}&hotel_location=${hotel_location}&guest_count=${guest_count}`,
+          `http://localhost:3008/hotels/get-searched-listing/?hotel_name=${hotel_name}&hotel_location=${hotel_location}&guest_count=${guest_count}`,
           {
             method: 'GET',
           }
@@ -99,7 +99,7 @@ const SearchPage = () => {
         hotelFacilities: filters.hotelFacilities.join(","),
       }).toString();
 
-      const response = await fetch(`http://localhost:3008/get-searched-listing/?${query}`);
+      const response = await fetch(`http://localhost:3008/hotels/get-searched-listing/?${query}`);
       if (response.ok) {
         const data = await response.json();
         setListingData(data.message);

@@ -25,7 +25,7 @@ const UpdateUserReservationDates = ({ data, onClose, user_phone }) => {
 
     try {
       setLoading(true);
-      await axios.post("http://localhost:3008/update-user-reservation", {
+      await axios.post("http://localhost:3008/users/update-user-reservation", {
         check_in_date: checkInDate,
         check_out_date: checkOutDate,
         user_phone,

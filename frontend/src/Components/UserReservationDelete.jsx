@@ -21,7 +21,7 @@ const UserReservationDelete = ({
 
       try {
         const response = await axios.delete(
-          `http://localhost:3008/user-delete-reservation/${data.reservation_id}`,
+          `http://localhost:3008/reservations/user-delete-reservation/${data.reservation_id}`,
           { data: { 
             seller_email: data?.seller_email,
             hotel_name : data?.hotel_name,

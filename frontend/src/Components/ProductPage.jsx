@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Slider from "react-slick";
-import amenitiesIcons from "./Ammenities";
-import amenitiesList from "./AmmentiesIcon";
+import amenitiesList from "./Ammenities";
+import amenitiesIcon from "./AmmentiesIcon";
 import { SessionContext, useSession } from "../Context/SessionContext";
 import HotelMap from "./HotelMap";
 import HotelBookingCard from "./HotelBookingCard";
-import LoaderPage from "./LoaderPage"
+import LoaderPage from "./LoaderPage";
 const ProductPage = () => {
   const navigate = useNavigate();
-  const { sessionData } = useSession(SessionContext);
+  const { sessionData, sessionLoading } = useSession(SessionContext);
   const { id } = useParams();
   const [hotelData, setHotelData] = useState([]);
   const [ratingData, setRatingData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
-    if (!sessionData) {
+    if (!sessionData && !sessionLoading) {
       navigate("../");
       window.failure("Please login first!");
     }
-  }, [sessionData]);
+  }, [sessionData , sessionLoading]);
+
   // Un-comment above lines for allowing users to visit product page only after login
 
   const [review, setReview] = useState("");
@@ -30,7 +30,7 @@ const ProductPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3008/add-rating`, {
+      const response = await fetch(`http://localhost:3008/reviews/add-rating`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -57,7 +57,9 @@ const ProductPage = () => {
 
   const fetchRating = async () => {
     try {
-      const response = await fetch(`http://localhost:3008/get-rating/${id}`);
+      const response = await fetch(
+        `http://localhost:3008/reviews/get-reviews/${id}`
+      );
       if (!response.ok) {
         return;
       }
@@ -75,7 +77,7 @@ const ProductPage = () => {
     const fetchHotelData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3008/get-hotel-listing/${id}`
+          `http://localhost:3008/hotels/get-hotel-listing/${id}`
         );
         if (!response.ok) {
           console.error("Failed to fetch hotel data");
@@ -93,9 +95,11 @@ const ProductPage = () => {
   }, [id]);
 
   if (loading) {
-    return <>
-    <LoaderPage/>
-    </>;
+    return (
+      <>
+        <LoaderPage />
+      </>
+    );
   }
 
   const {
@@ -142,14 +146,18 @@ const ProductPage = () => {
       </div>
 
       <div className="hotel-details">
-        <h1 className="hotel-name">{hotel_name}</h1>
-        <p className="hotel-location">{hotel_location}</p>
-        <p className="hotel-rating">
-          {ratingData?.averageRating + " star rating" || "No rating provided"}
-        </p>
-        <p className="hotel-description">
-          {description || "No description provided."}
-        </p>
+        <div className="hotel-info">
+          <div style={{display:"flex",justifyContent:"space-between"}}>
+            <div>
+              <h1 className="hotel-name">{hotel_name}</h1>
+              <p className="hotel-location">Located in {hotel_location}</p>
+            </div>
+            <div className="hotel-avg-rating">
+              <div>{ratingData?.averageRating || "0"} <i className="ri-star-s-fill"></i></div>
+              <div className="lower">{ratingData?.reviews?.length || 0} rating</div>
+            </div>
+          </div>
+        </div>
 
         <div className="hotel-amenities">
           <h3>Amenities</h3>
@@ -159,7 +167,7 @@ const ProductPage = () => {
               return (
                 <li key={index}>
                   {iconIndex !== -1 && (
-                    <i className={`ri ${amenitiesIcons[iconIndex]}`} />
+                    <i className={`${amenitiesIcon[iconIndex]}`} />
                   )}
                   {amenity}
                 </li>
@@ -167,23 +175,34 @@ const ProductPage = () => {
             })}
           </ul>
         </div>
+        <p className="hotel-description">
+            {description || "No description provided"}
+          </p>
         <br />
 
         {/* cancellation policy */}
-        <h2>Cancellation policy</h2>
-        <p>Write here about hotels cancelation policy...  hard coded, same for all</p>
+        <div style={{ display: "flex" }}>
+          <HotelBookingCard {...hotelData} sessionData={sessionData} />
 
-        {/* hotel booking details */}
-        <HotelBookingCard {...hotelData} sessionData={sessionData}/>
-
-        {/* display hotel map only if available to see */}
-        {
-          hotelData?.l_l && <>
-          <h2>Hotel Map</h2>
-        <HotelMap location={hotelData?.l_l} />
-        </>
-        }
-
+          <div className="cancellation-policy">
+            <h3>Cancellation Policy</h3>
+            <p>
+              You can cancel your reservation at any time. There are no
+              penalties for cancellations made at any point before your check-in
+              date. We understand that plans can change, and we want to make the
+              booking process as flexible as possible for you.
+            </p>
+            <p>
+              Please note that after the check-in date, cancellations or
+              no-shows will not be refunded.
+            </p>
+          </div>
+        </div>
+        {hotelData?.l_l && (
+          <div>
+            <HotelMap location={hotelData?.l_l} />
+          </div>
+        )}
 
         {
           <>

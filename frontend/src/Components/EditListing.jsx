@@ -8,7 +8,7 @@ const EditListing = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3008/fetch-hotel-edit", {
+        const response = await fetch("http://localhost:3008/hotels/fetch-hotel-edit", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ seller_email: sessionData?.email }), 

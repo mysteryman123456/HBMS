@@ -28,7 +28,7 @@ const UserProfile = () => {
     if (window.confirm("Are you sure you want to delete your account? This cannot be undone.")) {
       try {
         setLoading(true);
-        await axios.delete(`http://localhost:3008/user-delete-account/${sessionData?.email}`);
+        await axios.delete(`http://localhost:3008/users/user-delete-account/${sessionData?.email}`);
         window.success("Account deleted !");
         window.location.href = "../../logout";
       } catch (error) {
@@ -50,7 +50,7 @@ const UserProfile = () => {
     }
     try {
       setLoading(true);
-      await axios.post("http://localhost:3008/user-change-password", {
+      await axios.post("http://localhost:3008/users/user-change-password", {
         email: sessionData?.email,
         old_password: password,
         new_password: newPassword,
@@ -76,7 +76,7 @@ const UserProfile = () => {
 
     try {
       setLoading(true);
-      await axios.post("http://localhost:3008/update-user-phonenumber", {
+      await axios.post("http://localhost:3008/users/update-user-phonenumber", {
         email: sessionData?.email,
         new_phone_number: phoneNumber,
       });

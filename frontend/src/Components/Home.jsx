@@ -1,6 +1,6 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
-import { useNavigate , Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -8,16 +8,16 @@ const Home = () => {
   const [searchText, setSearchText] = useState("");
   const [filteredResults, setFilteredResults] = useState([]);
   const [filteredHotelName, setFilteredHotelName] = useState([]);
-  const[hotelName , setHotelName] = useState("");
-  const[loading , setLoading] = useState(false);
-  const[guest_count , setGuestCount] = useState(1);
-  const[listings , setLisitng] = useState([]);
-  
+  const [hotelName, setHotelName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [guest_count, setGuestCount] = useState(1);
+  const [listings, setLisitng] = useState([]);
+
   useEffect(() => {
     const fetchLocationName = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3008/get-hotel-location-name",
+          "http://localhost:3008/hotels/get-hotel-location-name",
           {
             method: "GET",
           }
@@ -36,7 +36,7 @@ const Home = () => {
       setLoading(true);
       try {
         const response = await fetch(
-          "http://localhost:3008/get-hotel-listing",
+          "http://localhost:3008/hotels/get-allhotel-listing/",
           {
             method: "GET",
           }
@@ -50,8 +50,7 @@ const Home = () => {
         }
       } catch (err) {
         console.error("Network error:", err);
-      }
-      finally{
+      } finally {
         setLoading(false);
       }
     };
@@ -67,36 +66,37 @@ const Home = () => {
       return;
     }
     const matchedLocation = l_n.filter((location) =>
-      (location.hotel_location.toLowerCase().trim().includes(text.toLowerCase()))
+      location.hotel_location.toLowerCase().trim().includes(text.toLowerCase())
     );
     setFilteredResults(matchedLocation);
   };
 
-  const handleNameSearch = (e) =>{
+  const handleNameSearch = (e) => {
     const text = e.target.value;
-    setHotelName(text)
+    setHotelName(text);
     if (text.trim() === "") {
       setFilteredHotelName([]);
       return;
     }
-    const matchedNames = l_n.filter((name)=>
-    (name.hotel_name.toLowerCase().trim().includes(text.toLowerCase())));
+    const matchedNames = l_n.filter((name) =>
+      name.hotel_name.toLowerCase().trim().includes(text.toLowerCase())
+    );
     setFilteredHotelName(matchedNames);
-  }
+  };
 
-  const sendData=()=>{
-    if(guest_count <= 0){
-      window.failure("Provide valid data") 
+  const sendData = () => {
+    if (guest_count <= 0) {
+      window.failure("Provide valid data");
       return;
     }
     const dataToSend = {
-      hotel_name : hotelName,
-      hotel_location : searchText,
-      guest_count : guest_count
-    }
+      hotel_name: hotelName,
+      hotel_location: searchText,
+      guest_count: guest_count,
+    };
     const queryParameters = new URLSearchParams(dataToSend).toString();
-    navigate(`/search?${queryParameters}`)
-  }
+    navigate(`/search?${queryParameters}`);
+  };
 
   return (
     <>

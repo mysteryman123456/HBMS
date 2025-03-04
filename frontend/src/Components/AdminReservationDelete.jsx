@@ -15,7 +15,7 @@ const AdminReservationDelete = ({ data, close: closeDeleteWrapper , fetchReserva
       console.log(data)
 
       try {
-        const response = await axios.delete(`http://localhost:3008/admin-delete-reservation/${data.reservation_id}`,{data : {
+        const response = await axios.delete(`http://localhost:3008/reservations/admin-delete-reservation/${data.reservation_id}`,{data : {
           user_email : data?.user_email,
           seller_email : data?.seller_email,
           hotel_name : data.hotel_name,

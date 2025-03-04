@@ -47,7 +47,7 @@ const HotelBookingCard = ({
 
     try {
       setLoading(true); 
-      const response = await axios.post("http://localhost:3008/add-reservations", bookingDetails);
+      const response = await axios.post("http://localhost:3008/reservations/add-reservation", bookingDetails);
       window.success(response.data.message); 
       setLoading(false); 
     } catch (error) {
@@ -58,19 +58,19 @@ const HotelBookingCard = ({
   };
 
   return (
-    <div>
-      <h2>Booking Details</h2>
-      <p>Hotel ID: {hotel_id}</p>
-      <p>Hotel email: {seller_email}</p>
-      <p>Room Number: {room_number}</p>
-      <p>Room Capacity: {room_capacity}</p>
-      <p>Room Type: {room_type}</p>
-      <p>Room Price: NPR {price}</p>
+    <div className="hotel-booking-card">
+      <div className="booking-details">
+      <p>Hotel ID {hotel_id}</p>
+      <p>Hotel email {seller_email}</p>
+      <p>Room Number {room_number}</p>
+      <p>Room Capacity {room_capacity}</p>
+      <p>Room Type {room_type}</p>
+      <p>Room Price NPR {price}</p>
       <p>Room ID: {room_id}</p>
-      <p>Your Phonenumber : {sessionData?.phonenumber}</p>
-
+      <p>Your Phonenumber  {sessionData?.phonenumber}</p>
+      </div>
       <label>
-        Check-in Date:
+        Check-in Date
         <input
           name="check_in_date"
           type="date"
@@ -81,7 +81,7 @@ const HotelBookingCard = ({
       </label>
       <br />
       <label>
-        Check-out Date:
+        Check-out Date
         <input
           name="check_out_date"
           type="date"

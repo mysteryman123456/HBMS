@@ -20,7 +20,7 @@ const AdminReservations = () => {
   const fetchReservations = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3008/reservations/${seller_email}`
+        `http://localhost:3008/reservations/reservations/${seller_email}`
       );
       setReservations(response.data);
     } catch (error) {

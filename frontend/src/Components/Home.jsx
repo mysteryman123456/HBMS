@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
+import hotel1 from "../Assets/hotel1.jpg"
+import hotel2 from "../Assets/hotel2.jpg"
+import hotel3 from "../Assets/hotel3.jpg"
+import hotel4 from "../Assets/hotel4.webp"
 
 const Home = () => {
   const navigate = useNavigate();
@@ -181,7 +185,7 @@ const Home = () => {
         </div>
       </div>
       <div className="listings-container">
-        <h2>Top Featured Hotels on Nuby</h2>
+        <h2>Featured Hotels on Nuby</h2>
         {
           loading === true ?
           <div className="loading">
@@ -211,6 +215,51 @@ const Home = () => {
           }
         </div>
       </div>
+
+      <hr />
+
+      <div className="about-hotel-container">
+      <div className="about-hotel-wrapper">
+        <div className="about-hotel-content">
+          <div className="about-hotel-description">
+          <div className="about-hotel-header">
+          <h1>Your Trusted Travel Companion</h1>
+        </div>
+            <p>
+              Nuby is more than just a hotel booking platform - we're your gateway to unforgettable travel experiences. 
+            </p>
+            <p>
+              Our mission is simple: make hotel booking seamless, transparent, and enjoyable. 
+              With thousands of verified hotels, real user reviews, and unbeatable prices, 
+              Nuby has become the go-to choice for travelers worldwide.
+            </p>
+     
+          </div>
+          <div className="about-hotel-images">
+            <img 
+              src={hotel1} 
+              alt="Nuby Hotel 1" 
+              className="about-hotel-image"
+            />
+            <img 
+              src={hotel2}
+              alt="Nuby Hotel 2" 
+              className="about-hotel-image"
+            />
+            <img 
+              src={hotel3}
+              alt="Nuby Hotel 3" 
+              className="about-hotel-image"
+            />
+            <img 
+              src={hotel4}
+              alt="Nuby Hotel 4" 
+              className="about-hotel-image"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
     </>
   );
 };
